@@ -8,5 +8,6 @@
              x:Class="AdventureScrolls.View.MainView"
              >
   <!--Pages can be added as references or inline-->
-    <view:AdventureScrollsView  Title="Adventure Scrolls"/>
+    <view:AdventureScrollsView  Title="Adventure Scrolls" IconImageSource="scrolls.png"/>
+    <view:WriteAdventureView  Title="Write adventure"  IconImageSource="feather.png"/>
 </TabbedPage>
