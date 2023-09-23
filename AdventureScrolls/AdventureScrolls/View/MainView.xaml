@@ -6,8 +6,11 @@
              xmlns:local="clr-namespace:AdventureScrolls"
              xmlns:view="clr-namespace:AdventureScrolls.View"
              x:Class="AdventureScrolls.View.MainView"
+            BarBackgroundColor="Gray"
+            SelectedTabColor="white"
+            UnselectedTabColor="black"
              >
   <!--Pages can be added as references or inline-->
-    <view:AdventureScrollsView  Title="Adventure Scrolls" IconImageSource="scrolls.png"/>
+    <view:AdventureScrollsView Title="Adventure Scrolls" IconImageSource="scrolls.png"/>
     <view:WriteAdventureView  Title="Write adventure"  IconImageSource="feather.png"/>
 </TabbedPage>
