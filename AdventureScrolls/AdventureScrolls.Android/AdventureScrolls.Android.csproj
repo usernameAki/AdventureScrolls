@@ -122,5 +122,8 @@
   <ItemGroup>
     <AndroidResource Include="Resources\mipmap-xxxhdpi\diary_icon.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Renderers\" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

@@ -2,37 +2,67 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AdventureScrolls.View.WriteAdventureView"
-             Title="Adventure Scrolls">
+             Title="Adventure Scrolls"
+             BackgroundColor="#191919">
     <ContentPage.Content>
-        <StackLayout>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="auto"/>
-                </Grid.ColumnDefinitions>
-                <Frame Grid.Row="0" 
-                       Grid.ColumnSpan="2"
-                       BorderColor="Gray"
-                       CornerRadius="30"
-                       Margin="2"
-                       BackgroundColor="#BBB9B9">
-                    <StackLayout Orientation="Vertical">
-                        <StackLayout Orientation="Horizontal" >
-                            <Label TextColor="Black" Text="Data:" FontSize="20"/>
-                            <Label TextColor="Black" Text="Aktualna Data" FontSize="20" Margin="0, 0, 0, 0"/>
-                        </StackLayout>
-                        <StackLayout Margin="0, 10, 0, 0" Orientation="Vertical">
-                            <Label TextColor="Black" Text="Tytuł:" FontSize="20"/>
-                            <Entry TextColor="Black" Text="Mój tytuł" FontSize="20" Margin="0, 10, 0, 0"/>
-                        </StackLayout>
+        <StackLayout VerticalOptions="FillAndExpand">
+            <Frame 
+                BorderColor="#3d3d3d"
+                CornerRadius="30"
+                Margin="2"
+                BackgroundColor="#191919">
+                <StackLayout Orientation="Vertical" >
+                    <StackLayout Orientation="Horizontal" >
+                        <Label 
+                            TextColor="#787878" 
+                            Text="Date:" 
+                            FontSize="20"
+                            FontAttributes="Bold"
+                            VerticalOptions="Center"
+                            MinimumWidthRequest="50"/>
+                        <DatePicker 
+                            TextColor="#787878"  
+                            FontSize="20" 
+                            FontAttributes="Bold"
+                            />
+                        <Image   
+                            Source="scrolls.png" 
+                            HeightRequest="75" 
+                            WidthRequest="75" 
+                            HorizontalOptions="EndAndExpand" 
+                            VerticalOptions="Start" />
                     </StackLayout>
-                </Frame>
-                <Image Grid.Row="0" Grid.RowSpan="2" Source="scrolls.png" HeightRequest="75" WidthRequest="75" HorizontalOptions="End" />
-            </Grid>
+                    <StackLayout Orientation="Horizontal" >
+                        <Label TextColor="#787878" 
+                                Text="Title:" 
+                                FontSize="20"
+                                FontAttributes="Bold"
+                                VerticalOptions="Center"
+                                MinimumWidthRequest="50"/>
+                        <Grid>
+                            <Editor TextColor="#787878" 
+                                Placeholder="Your adventure title..." 
+                                PlaceholderColor="#5D5D5D"
+                                FontSize="20" 
+                                FontAttributes="Bold" 
+                                IsSpellCheckEnabled="True"
+                                AutoSize="TextChanges"
+                                HorizontalOptions="Center"/>
+                        </Grid>
+                    </StackLayout>
+                </StackLayout>
+            </Frame>
+            <Frame 
+                BorderColor="#3d3d3d"
+                CornerRadius="30"
+                Margin="2"
+                BackgroundColor="#191919"
+                VerticalOptions="FillAndExpand">
+                <Editor 
+                    TextColor="#BBB9B9"
+                    Placeholder="Your adventure..."
+                    PlaceholderColor="#5D5D5D"/>
+            </Frame>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
