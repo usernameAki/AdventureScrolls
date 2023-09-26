@@ -22,18 +22,49 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition Width="2"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="50"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition Height="0"/>
+                                </Grid.RowDefinitions>
+
+                                <StackLayout Grid.Column="0" Orientation="Vertical" >
+                                    <Label Text="{Binding Day}" TextColor="#787878" HorizontalOptions="Center" FontSize="30" FontAttributes="Bold"/>
+                                    <Label Text="{Binding Month}" TextColor="#787878" Margin="0,-15,0,0" HorizontalOptions="Center" FontAttributes="Bold"/>
+                                    <Label Text="{Binding Year}" TextColor="#787878" Margin="0,-10,0,0" HorizontalOptions="Center" FontAttributes="Bold"/>
+                                </StackLayout>
+                                <Frame Grid.Column="1" Grid.RowSpan="2" Background="#787878" Margin="0,5,0,5" />
+                                <StackLayout Grid.Column="2" Orientation="Vertical" >
+                                    <Label Text="{Binding Title}" TextColor="#787878" FontSize="20" FontAttributes="Bold" MaxLines="5"/>
+                                    <Label Text="{Binding ScrollContent}" TextColor="#787878" FontSize="12" FontAttributes="Bold" MaxLines="2" />
+                                </StackLayout>
+                                <Image Grid.Column="3" Source="scrolls.png"  Margin="0,0,3,0" VerticalOptions="Start" />
+                            </Grid>
+                            
+                            
+                            <!--
                             <StackLayout Orientation="Vertical" Padding="5,5,0,0">
                                 <StackLayout Orientation="Horizontal">
-                                    <StackLayout Orientation="Vertical" >
+                                    <StackLayout Orientation="Vertical" MinimumWidthRequest="50">
                                         <Label Text="{Binding Day}" TextColor="#787878" HorizontalOptions="Center" FontSize="30" FontAttributes="Bold"/>
                                         <Label Text="{Binding Month}" TextColor="#787878" Margin="0,-15,0,0" HorizontalOptions="Center" FontAttributes="Bold"/>
                                         <Label Text="{Binding Year}" TextColor="#787878" Margin="0,-10,0,0" HorizontalOptions="Center" FontAttributes="Bold"/>
                                     </StackLayout>
-                                    <Line Y2="50" Stroke="#787878" Margin="1" VerticalOptions="Center" StrokeThickness="5" />
-                                    <Label Text="{Binding Title}" TextColor="#787878" FontSize="20" FontAttributes="Bold" />
+                                    <Line Y2="200" Stroke="#787878" Margin="1" VerticalOptions="Start" StrokeThickness="5" />
+                                    <StackLayout Orientation="Vertical" >
+                                        <Label Text="{Binding Title}" TextColor="#787878" FontSize="20" FontAttributes="Bold" MaxLines="5"/>
+                                        <Label Text="{Binding ScrollContent}" TextColor="#787878" FontSize="12" FontAttributes="Bold" MaxLines="2" />
+                                    </StackLayout>
                                     <Image Source="scrolls.png" HeightRequest="50" WidthRequest="50" HorizontalOptions="EndAndExpand" Margin="0,0,10,0"/>
                                 </StackLayout>
                             </StackLayout>
+                            -->
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
