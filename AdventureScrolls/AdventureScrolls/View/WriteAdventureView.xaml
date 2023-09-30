@@ -2,8 +2,13 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AdventureScrolls.View.WriteAdventureView"
+             xmlns:viewModel="clr-namespace:AdventureScrolls.ViewModel"
              Title="Adventure Scrolls"
              BackgroundColor="#191919">
+    <ContentPage.BindingContext>
+        <viewModel:WriteAdventureViewModel/>
+    </ContentPage.BindingContext>
+    
     <ContentPage.Content>
         <StackLayout VerticalOptions="FillAndExpand">
             <Frame 
@@ -12,7 +17,7 @@
                 Margin="2"
                 BackgroundColor="#191919">
                 <StackLayout Orientation="Vertical" >
-                    <StackLayout Orientation="Horizontal" >
+                    <StackLayout Orientation="Horizontal">
                         <Label 
                             TextColor="#787878" 
                             Text="Date:" 
@@ -21,33 +26,50 @@
                             VerticalOptions="Center"
                             MinimumWidthRequest="50"/>
                         <DatePicker 
+                            x:Name="MyDatePicker"
+                            Date="{Binding NewScroll.EntryDate.Date, Mode=TwoWay}"
                             TextColor="#787878"  
                             FontSize="20" 
+                            VerticalOptions="Center"
                             FontAttributes="Bold"
                             />
-                        <Image   
-                            Source="scrolls.png" 
-                            HeightRequest="75" 
-                            WidthRequest="75" 
+                        <ImageButton   
+                            Source="mood_aquaScale_happy.png" 
+                            HeightRequest="50" 
+                            WidthRequest="50" 
+                            CornerRadius="10"
+                            Margin="20,0,0,0"
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center"
+                            Command="{Binding MoodButtonClicked}"/>
+                        <Button   
+                            Text="Store" 
+                            HeightRequest="40" 
+                            WidthRequest="80" 
+                            CornerRadius="10"
+                            Margin="0,10,0,0"
                             HorizontalOptions="EndAndExpand" 
-                            VerticalOptions="Start" />
+                            VerticalOptions="Center"/>
                     </StackLayout>
-                    <StackLayout Orientation="Horizontal" >
-                        <Label TextColor="#787878" 
+                    <StackLayout Orientation="Horizontal" Margin="0,10,0,0">
+                        <Label  
+                                TextColor="#787878" 
                                 Text="Title:" 
                                 FontSize="20"
                                 FontAttributes="Bold"
                                 VerticalOptions="Center"
                                 MinimumWidthRequest="50"/>
                         <Grid>
-                            <Editor TextColor="#787878" 
-                                Placeholder="Your adventure title..." 
-                                PlaceholderColor="#5D5D5D"
-                                FontSize="20" 
-                                FontAttributes="Bold" 
-                                IsSpellCheckEnabled="True"
-                                AutoSize="TextChanges"
-                                HorizontalOptions="Center"/>
+                            <Editor x:Name="MyTitle"
+                                    Text="{Binding NewScroll.Title, Mode=TwoWay}"
+                                    TextColor="#787878" 
+                                    Placeholder="Your adventure title..." 
+                                    PlaceholderColor="#5D5D5D"
+                                    FontSize="20" 
+                                    FontAttributes="Bold" 
+                                    IsSpellCheckEnabled="True"
+                                    AutoSize="TextChanges"
+                                    HorizontalOptions="Center"/>
                         </Grid>
                     </StackLayout>
                 </StackLayout>
@@ -58,10 +80,11 @@
                 Margin="2"
                 BackgroundColor="#191919"
                 VerticalOptions="FillAndExpand">
-                <Editor 
-                    TextColor="#BBB9B9"
-                    Placeholder="Your adventure..."
-                    PlaceholderColor="#5D5D5D"/>
+                <Editor x:Name="MyEditor"
+                        Text="{Binding NewScroll.ScrollContent, Mode=TwoWay}"
+                        TextColor="#BBB9B9"
+                        Placeholder="Your adventure..."
+                        PlaceholderColor="#5D5D5D"/>
             </Frame>
         </StackLayout>
     </ContentPage.Content>

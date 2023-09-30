@@ -1,4 +1,5 @@
-﻿using AdventureScrolls.Model;
+﻿using AdventureScrolls.Core;
+using AdventureScrolls.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -6,7 +7,7 @@ using System.Text;
 
 namespace AdventureScrolls.ViewModel
 {
-    public class AdventureScrollsViewModel
+    public class AdventureScrollsViewModel : BaseViewModel
     {
         public ObservableCollection<ScrollModel> Scrolls { get; set; }
 

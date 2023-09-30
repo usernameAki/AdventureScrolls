@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<popup:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AdventureScrolls.View.MoodPopUpView"
+             xmlns:popup="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             xmlns:viewModel="clr-namespace:AdventureScrolls.ViewModel">
+    <popup:PopupPage.BindingContext>
+        <viewModel:WriteAdventureViewModel/>
+    </popup:PopupPage.BindingContext>
+    <Frame HorizontalOptions="Center" 
+           VerticalOptions="Center" 
+           Background="#3d3d3d"
+           CornerRadius="10">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Label Text="How do you feel today?" TextColor="Black" HorizontalOptions="Center"/>
+            <StackLayout Grid.Row="1" Orientation="Horizontal">
+                <ImageButton Source="mood_aquaScale_disgusted.png" HeightRequest="50" WidthRequest="50" Margin="5" CornerRadius="10"/>
+                <ImageButton Source="mood_aquaScale_sad.png" HeightRequest="50" WidthRequest="50" Margin="5" CornerRadius="10"/>
+                <ImageButton Source="mood_aquaScale_normal.png" HeightRequest="50" WidthRequest="50" Margin="5" CornerRadius="10"/>
+                <ImageButton Source="mood_aquaScale_happy.png" HeightRequest="50" WidthRequest="50" Margin="5" CornerRadius="10"/>
+                <ImageButton Source="mood_aquaScale_angry.png" HeightRequest="50" WidthRequest="50" Margin="5" CornerRadius="10"/>
+            </StackLayout>
+        </Grid>
+    </Frame>
+</popup:PopupPage>

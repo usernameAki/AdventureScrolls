@@ -3,6 +3,6 @@
     <color name="launcher_background">#000000</color>
     <color name="colorPrimary">#787878</color>
     <color name="colorPrimaryDark">#787878</color>
-    <color name="colorAccent">#3d3d3d</color>
+    <color name="colorAccent">@color/mtrl_btn_transparent_bg_color</color>
 	<color name="cursorColor">#3d3d3d</color>
 </resources>
