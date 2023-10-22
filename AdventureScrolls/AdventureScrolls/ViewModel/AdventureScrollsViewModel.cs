@@ -27,7 +27,6 @@ namespace AdventureScrolls.ViewModel
         {
             Scribe = DependencyService.Get<IScribeService>();
             Scrolls = Scribe.GetScrolls();
-            
         }
     }
 }

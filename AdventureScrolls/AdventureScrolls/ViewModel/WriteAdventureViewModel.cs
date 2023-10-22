@@ -16,19 +16,11 @@ namespace AdventureScrolls.ViewModel
     public class WriteAdventureViewModel : BaseViewModel
     {
         public ScrollModel Scroll { get; set; }
-
-        private string _moodImage;
-        public string MoodImage
-        {
-            get => _moodImage;
-            set
-            {
-                _moodImage = value;
-                OnPropertyChanged();
-            }
-        }
         public Command MoodButtonClicked { get; }
         public Command StoreScroll {  get; }
+
+
+        public Command ChangeMood {  get; }
 
         private readonly IScrollCreatorService _scrollCreatorService;
         private readonly IScribeService _scribeService;
@@ -47,8 +39,16 @@ namespace AdventureScrolls.ViewModel
             StoreScroll = new Command(o => 
             { 
                 _scribeService.StoreNewScroll(Scroll);
-            }); 
-            
+            });
+
+
+
+            ChangeMood = new Command(parameter =>
+            {
+                _scrollCreatorService.NewScroll.Mood = parameter.ToString();
+                PopupNavigation.Instance.PopAsync();
+            });
+
         }
 
     }

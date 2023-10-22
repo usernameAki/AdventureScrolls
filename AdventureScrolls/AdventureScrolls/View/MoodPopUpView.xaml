@@ -5,7 +5,7 @@
              xmlns:popup="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
              xmlns:viewModel="clr-namespace:AdventureScrolls.ViewModel">
     <popup:PopupPage.BindingContext>
-        <viewModel:MoodPopUpViewModel/>
+        <viewModel:WriteAdventureViewModel/>
     </popup:PopupPage.BindingContext>
     <Frame HorizontalOptions="Center" 
            VerticalOptions="Center" 

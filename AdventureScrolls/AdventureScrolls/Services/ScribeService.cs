@@ -9,7 +9,6 @@ namespace AdventureScrolls.Services
     public class ScribeService : IScribeService
     {
         public string filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "ScrollLibrary.json");
-
         private void StoreScrolls(ObservableCollection<ScrollModel> scrolls)
         {
             string json = JsonConvert.SerializeObject(scrolls, Formatting.Indented);
