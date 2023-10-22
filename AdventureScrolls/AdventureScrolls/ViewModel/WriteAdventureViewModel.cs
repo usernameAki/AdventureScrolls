@@ -41,21 +41,15 @@ namespace AdventureScrolls.ViewModel
             Scroll = _scrollCreatorService.NewScroll;
 
 
-            //Update image on start
-            UpdateMoodImage();
 
             //Commands
-            MoodButtonClicked = new Command(o => PopupNavigation.Instance.PushAsync(new MoodPopUpView(this)));
-            StoreScroll = new Command(o => _scribeService.StoreNewScroll(Scroll));
+            MoodButtonClicked = new Command(o => PopupNavigation.Instance.PushAsync(new MoodPopUpView()));
+            StoreScroll = new Command(o => 
+            { 
+                _scribeService.StoreNewScroll(Scroll);
+            }); 
             
         }
 
-        /// <summary>
-        /// Updates MoodImage in WriteAdventureView
-        /// </summary>
-        public void UpdateMoodImage()
-        {
-            MoodImage = Scroll.Mood;
-        }
     }
 }

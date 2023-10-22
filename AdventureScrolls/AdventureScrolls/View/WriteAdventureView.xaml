@@ -34,7 +34,7 @@
                             FontAttributes="Bold"
                             />
                         <ImageButton   
-                            Source="{Binding MoodImage, StringFormat='mood_aquaScale_{0}.png', Mode=TwoWay}" 
+                            Source="{Binding Scroll.Mood, StringFormat='mood_aquaScale_{0}.png', Mode=TwoWay}" 
                             HeightRequest="50" 
                             WidthRequest="50" 
                             CornerRadius="10"

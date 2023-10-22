@@ -38,6 +38,7 @@ namespace AdventureScrolls.Services
             ObservableCollection<ScrollModel> scrollLibrary = GetScrolls();
             scrollLibrary.Add(scrollToStore);
             StoreScrolls(scrollLibrary);
+            scrollToStore.CleanData();
         }
     }
 }
