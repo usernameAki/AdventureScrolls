@@ -27,7 +27,7 @@
                             MinimumWidthRequest="50"/>
                         <DatePicker 
                             x:Name="MyDatePicker"
-                            Date="{Binding Scroll.EntryDate.Date, Mode=TwoWay}"
+                            Date="{Binding Scroll.EntryDate, Mode=TwoWay}"
                             TextColor="#787878"  
                             FontSize="20" 
                             VerticalOptions="Center"
