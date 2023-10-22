@@ -5,7 +5,7 @@
              xmlns:popup="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
              xmlns:viewModel="clr-namespace:AdventureScrolls.ViewModel">
     <popup:PopupPage.BindingContext>
-        <viewModel:WriteAdventureViewModel/>
+        <viewModel:MoodPopUpViewModel/>
     </popup:PopupPage.BindingContext>
     <Frame HorizontalOptions="Center" 
            VerticalOptions="Center" 
@@ -18,11 +18,11 @@
             </Grid.RowDefinitions>
             <Label Text="How do you feel today?" TextColor="Black" HorizontalOptions="Center"/>
             <StackLayout Grid.Row="1" Orientation="Horizontal">
-                <ImageButton Source="mood_aquaScale_disgusted.png" HeightRequest="50" WidthRequest="50" Margin="5" CornerRadius="10"/>
-                <ImageButton Source="mood_aquaScale_sad.png" HeightRequest="50" WidthRequest="50" Margin="5" CornerRadius="10"/>
-                <ImageButton Source="mood_aquaScale_normal.png" HeightRequest="50" WidthRequest="50" Margin="5" CornerRadius="10"/>
-                <ImageButton Source="mood_aquaScale_happy.png" HeightRequest="50" WidthRequest="50" Margin="5" CornerRadius="10"/>
-                <ImageButton Source="mood_aquaScale_angry.png" HeightRequest="50" WidthRequest="50" Margin="5" CornerRadius="10"/>
+                <ImageButton Source="mood_aquaScale_disgusted.png" HeightRequest="50" WidthRequest="50" Margin="5" CornerRadius="10" Command="{Binding ChangeMood}" CommandParameter="disgusted"/>
+                <ImageButton Source="mood_aquaScale_sad.png" HeightRequest="50" WidthRequest="50" Margin="5" CornerRadius="10" Command="{Binding ChangeMood}" CommandParameter="sad"/>
+                <ImageButton Source="mood_aquaScale_normal.png" HeightRequest="50" WidthRequest="50" Margin="5" CornerRadius="10" Command="{Binding ChangeMood}" CommandParameter="normal"/>
+                <ImageButton Source="mood_aquaScale_happy.png" HeightRequest="50" WidthRequest="50" Margin="5" CornerRadius="10" Command="{Binding ChangeMood}" CommandParameter="happy"/>
+                <ImageButton Source="mood_aquaScale_angry.png" HeightRequest="50" WidthRequest="50" Margin="5" CornerRadius="10" Command="{Binding ChangeMood}" CommandParameter="angry"/>
             </StackLayout>
         </Grid>
     </Frame>

@@ -1,4 +1,7 @@
-﻿using AdventureScrolls.View;
+﻿using AdventureScrolls.Model;
+using AdventureScrolls.Services;
+using AdventureScrolls.View;
+using AdventureScrolls.ViewModel;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -11,6 +14,8 @@ namespace AdventureScrolls
         {
             InitializeComponent();
 
+            DependencyService.Register<IScribeService,ScribeService>();
+            DependencyService.Register<IScrollCreatorService, ScrollCreatorService>();
             MainPage = new MainView();
         }
 

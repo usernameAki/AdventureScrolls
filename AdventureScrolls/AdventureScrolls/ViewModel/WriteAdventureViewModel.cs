@@ -7,28 +7,55 @@ using Xamarin.Forms;
 using Rg.Plugins.Popup.Extensions;
 using AdventureScrolls.View;
 using AdventureScrolls.Model;
+using Rg.Plugins.Popup.Services;
+using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
+using AdventureScrolls.Services;
 
 namespace AdventureScrolls.ViewModel
 {
     public class WriteAdventureViewModel : BaseViewModel
     {
-        private  ScrollModel _newScroll;
-        public ScrollModel NewScroll 
+        public ScrollModel Scroll { get; set; }
+
+        private string _moodImage;
+        public string MoodImage
         {
-            get => _newScroll;
+            get => _moodImage;
             set
             {
-                _newScroll = value;
+                _moodImage = value;
                 OnPropertyChanged();
             }
         }
         public Command MoodButtonClicked { get; }
-        public Command ChangeMood { get; }
+        public Command StoreScroll {  get; }
+
+        private readonly IScrollCreatorService _scrollCreatorService;
+        private readonly IScribeService _scribeService;
         public WriteAdventureViewModel()
         {
-            NewScroll = new ScrollModel();
-            MoodButtonClicked = new Command(o => Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(new MoodPopUpView()));
-           // ChangeMood = new Command(o =>);
+            //Pass new scroll through DI
+            _scrollCreatorService = DependencyService.Get<IScrollCreatorService>();
+            _scribeService = DependencyService.Get<IScribeService>();
+
+            Scroll = _scrollCreatorService.NewScroll;
+
+
+            //Update image on start
+            UpdateMoodImage();
+
+            //Commands
+            MoodButtonClicked = new Command(o => PopupNavigation.Instance.PushAsync(new MoodPopUpView(this)));
+            StoreScroll = new Command(o => _scribeService.StoreNewScroll(Scroll));
+            
+        }
+
+        /// <summary>
+        /// Updates MoodImage in WriteAdventureView
+        /// </summary>
+        public void UpdateMoodImage()
+        {
+            MoodImage = Scroll.Mood;
         }
     }
 }

@@ -27,14 +27,14 @@
                             MinimumWidthRequest="50"/>
                         <DatePicker 
                             x:Name="MyDatePicker"
-                            Date="{Binding NewScroll.EntryDate.Date, Mode=TwoWay}"
+                            Date="{Binding Scroll.EntryDate.Date, Mode=TwoWay}"
                             TextColor="#787878"  
                             FontSize="20" 
                             VerticalOptions="Center"
                             FontAttributes="Bold"
                             />
                         <ImageButton   
-                            Source="mood_aquaScale_happy.png" 
+                            Source="{Binding MoodImage, StringFormat='mood_aquaScale_{0}.png', Mode=TwoWay}" 
                             HeightRequest="50" 
                             WidthRequest="50" 
                             CornerRadius="10"
@@ -44,6 +44,8 @@
                             Command="{Binding MoodButtonClicked}"/>
                         <Button   
                             Text="Store" 
+                            Command="{Binding StoreScroll}"
+                            CommandParameter="sad"
                             HeightRequest="40" 
                             WidthRequest="80" 
                             CornerRadius="10"
@@ -60,8 +62,10 @@
                                 VerticalOptions="Center"
                                 MinimumWidthRequest="50"/>
                         <Grid>
-                            <Editor x:Name="MyTitle"
-                                    Text="{Binding NewScroll.Title, Mode=TwoWay}"
+
+                            <!-- Text="{Binding Scroll.Title, Mode=TwoWay}" -->
+                            <Editor x:Name="AdventureTitle"
+                                    Text="{Binding Scroll.Title, Mode=TwoWay}"
                                     TextColor="#787878" 
                                     Placeholder="Your adventure title..." 
                                     PlaceholderColor="#5D5D5D"
@@ -70,6 +74,8 @@
                                     IsSpellCheckEnabled="True"
                                     AutoSize="TextChanges"
                                     HorizontalOptions="Center"/>
+                            
+                            
                         </Grid>
                     </StackLayout>
                 </StackLayout>
@@ -80,11 +86,16 @@
                 Margin="2"
                 BackgroundColor="#191919"
                 VerticalOptions="FillAndExpand">
-                <Editor x:Name="MyEditor"
-                        Text="{Binding NewScroll.ScrollContent, Mode=TwoWay}"
+
+
+                <!-- Text="{Binding Scroll.ScrollContent, Mode=TwoWay}" -->
+                <Editor x:Name="MyAdventure"
+                        Text="{Binding Scroll.ScrollContent, Mode=TwoWay}"
                         TextColor="#BBB9B9"
                         Placeholder="Your adventure..."
                         PlaceholderColor="#5D5D5D"/>
+                
+                
             </Frame>
         </StackLayout>
     </ContentPage.Content>
