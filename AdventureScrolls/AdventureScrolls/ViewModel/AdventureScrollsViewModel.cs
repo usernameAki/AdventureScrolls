@@ -11,22 +11,12 @@ namespace AdventureScrolls.ViewModel
 {
     public class AdventureScrollsViewModel : BaseViewModel
     {
-        private ObservableCollection<ScrollModel> _scrolls {  get; set; }
-        public ObservableCollection<ScrollModel> Scrolls 
-        {
-            get => _scrolls; 
-            set
-            {
-                _scrolls = value;
-                OnPropertyChanged();
-            }
-        }
-        IScribeService Scribe { get; set; }
-
+        public ObservableCollection<ScrollModel> ScrollLibrary { get; }
+        public IScribeService _scribe { get; }
         public AdventureScrollsViewModel()
         {
-            Scribe = DependencyService.Get<IScribeService>();
-            Scrolls = Scribe.GetScrolls();
+            _scribe = DependencyService.Get<IScribeService>();
+            ScrollLibrary = _scribe.ScrollLibrary;
         }
     }
 }

@@ -1,14 +1,8 @@
 ﻿using AdventureScrolls.Core;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Input;
 using Xamarin.Forms;
-using Rg.Plugins.Popup.Extensions;
 using AdventureScrolls.View;
 using AdventureScrolls.Model;
 using Rg.Plugins.Popup.Services;
-using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 using AdventureScrolls.Services;
 
 namespace AdventureScrolls.ViewModel
@@ -18,10 +12,7 @@ namespace AdventureScrolls.ViewModel
         public ScrollModel Scroll { get; set; }
         public Command MoodButtonClicked { get; }
         public Command StoreScroll {  get; }
-
-
         public Command ChangeMood {  get; }
-
         private readonly IScrollCreatorService _scrollCreatorService;
         private readonly IScribeService _scribeService;
         public WriteAdventureViewModel()
@@ -39,6 +30,7 @@ namespace AdventureScrolls.ViewModel
             StoreScroll = new Command(o => 
             { 
                 _scribeService.StoreNewScroll(Scroll);
+                Scroll.CleanData();
             });
 
 

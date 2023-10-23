@@ -5,6 +5,7 @@ namespace AdventureScrolls.Services
 {
     public interface IScribeService
     {
+        ObservableCollection<ScrollModel> ScrollLibrary { get; }
         ObservableCollection<ScrollModel> GetScrolls();
         void StoreNewScroll(ScrollModel scrollToStore);
     }

@@ -51,6 +51,13 @@ namespace AdventureScrolls.Model
         {
             CleanData();
         }
+        public ScrollModel(ScrollModel scroll)
+        {
+            EntryDate = scroll.EntryDate;
+            Title = scroll.Title;
+            ScrollContent = scroll.ScrollContent;
+            Mood = scroll.Mood;
+        }
 
         public void CleanData()
         {

@@ -18,7 +18,7 @@
         <StackLayout Orientation="Vertical">
             <Label Text="Adventure Scrolls" HorizontalOptions="Center" TextColor="#787878" FontSize="20" FontAttributes="Bold"/>
             <Image Source="scrolls.png" HeightRequest="50"/>
-            <ListView ItemsSource="{Binding Scrolls}" HasUnevenRows="true">
+            <ListView ItemsSource="{Binding _scribe.ScrollLibrary, Mode=TwoWay}" HasUnevenRows="true">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>

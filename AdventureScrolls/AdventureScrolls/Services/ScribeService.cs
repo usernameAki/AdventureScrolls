@@ -1,4 +1,5 @@
-﻿using AdventureScrolls.Model;
+﻿using AdventureScrolls.Core;
+using AdventureScrolls.Model;
 using Newtonsoft.Json;
 using System;
 using System.Collections.ObjectModel;
@@ -8,10 +9,18 @@ namespace AdventureScrolls.Services
 {
     public class ScribeService : IScribeService
     {
-        public string filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "ScrollLibrary.json");
-        private void StoreScrolls(ObservableCollection<ScrollModel> scrolls)
+        public string filePath;
+        public ObservableCollection<ScrollModel> ScrollLibrary { get; set; }
+
+        public ScribeService()
         {
-            string json = JsonConvert.SerializeObject(scrolls, Formatting.Indented);
+            filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "ScrollLibrary.json");
+            //File.Delete(filePath); //DELETE DATA
+            ScrollLibrary = GetScrolls();
+        }
+        private void StoreScrolls(ObservableCollection<ScrollModel> scrollLibraryToStore)
+        {
+            string json = JsonConvert.SerializeObject(scrollLibraryToStore, Formatting.Indented);
             File.WriteAllText(filePath, json);
         }
 
@@ -22,22 +31,19 @@ namespace AdventureScrolls.Services
                 CreateEmptyScrollLibrary();
             }
             string json = File.ReadAllText(filePath);
-            ObservableCollection<ScrollModel> loadedScrolls = JsonConvert.DeserializeObject<ObservableCollection<ScrollModel>>(json);
-            return loadedScrolls;
+            return JsonConvert.DeserializeObject<ObservableCollection<ScrollModel>>(json);
         }
 
         private void CreateEmptyScrollLibrary()
         {
-            ObservableCollection<ScrollModel> emptyLibrary = new ObservableCollection<ScrollModel>();
-            StoreScrolls(emptyLibrary);
+            ScrollLibrary = new ObservableCollection<ScrollModel>();
+            StoreScrolls(ScrollLibrary);
         }
 
         public void StoreNewScroll(ScrollModel scrollToStore)
         {
-            ObservableCollection<ScrollModel> scrollLibrary = GetScrolls();
-            scrollLibrary.Add(scrollToStore);
-            StoreScrolls(scrollLibrary);
-            scrollToStore.CleanData();
+            ScrollLibrary.Add(new ScrollModel(scrollToStore));
+            StoreScrolls(ScrollLibrary);
         }
     }
 }
