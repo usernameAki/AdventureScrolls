@@ -3,15 +3,22 @@
 
   <style name="MainTheme" parent="MainTheme.Base">
 
-    <item name="colorPrimary">#2196F3</item>
+	  <item name="colorPrimary">#2196F3</item>
     <!-- colorPrimaryDark is used for the status bar -->
-    <item name="colorPrimaryDark">#1976D2</item>
+	  <item name="colorPrimaryDark">#1976D2</item>
     <!-- colorAccent is used as the default value for colorControlActivated
          which is used to tint widgets -->
 	  <item name="colorAccent">#787878</item>
 	  <item name="android:datePickerDialogTheme">@style/CustomDatePickerDialog</item>
 	  <item name="android:editTextStyle">@style/CustomEditorStyle</item>
+	  <item name="android:colorPressedHighlight">@color/ListViewHighlighted</item>
+	  <item name="android:colorLongPressedHighlight">@color/ListViewSelectedItem</item>
+	  <item name="android:colorFocusedHighlight">@color/ListViewSelectedItem</item>
+	  <item name="android:colorActivatedHighlight">@color/ListViewSelectedItem</item>
+	  <item name="android:activatedBackgroundIndicator">@color/ListViewSelectedItem</item>
   </style>
+	<color name="ListViewSelectedItem">@android:color/transparent</color>
+	<color name="ListViewHighlighted">#801010</color>
 
 	<style name="CustomEditorStyle">
 		<item name="android:backgroundTint">@android:color/transparent</item>
@@ -33,4 +40,5 @@
 		<!--cancel&ok-->
 		<item name="android:textColor">#FFFFFF</item>
   </style>
+	
 </resources>

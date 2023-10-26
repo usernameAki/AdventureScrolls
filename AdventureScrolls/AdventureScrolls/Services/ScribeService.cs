@@ -15,7 +15,7 @@ namespace AdventureScrolls.Services
         public ScribeService()
         {
             filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "ScrollLibrary.json");
-            //File.Delete(filePath); //DELETE DATA
+            //File.Delete(filePath); //DELETE DATA - for test purpose
             ScrollLibrary = GetScrolls();
         }
         private void StoreScrolls(ObservableCollection<ScrollModel> scrollLibraryToStore)

@@ -4,77 +4,160 @@
              xmlns:viewModel="clr-namespace:AdventureScrolls.ViewModel"
              xmlns:local="clr-namespace:AdventureScrolls"
              x:Class="AdventureScrolls.View.AdventureScrollsView"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              BackgroundColor="#191919">
     <ContentPage.BindingContext>
         <viewModel:AdventureScrollsViewModel/>
     </ContentPage.BindingContext>
 
 
-    <ContentPage.ToolbarItems>
+
+
+<ContentPage.ToolbarItems>
         <ToolbarItem Text="Adventure Scrolls" Order="Primary"/>
     </ContentPage.ToolbarItems>
 
     <ContentPage.Content>
         <StackLayout Orientation="Vertical">
-            <Label Text="Adventure Scrolls" HorizontalOptions="Center" TextColor="#787878" FontSize="20" FontAttributes="Bold"/>
+
+            <!--___________________________________________Header__________________________________________________________ -->
+            <Label Text="Scroll Library" HorizontalOptions="Center" TextColor="#787878" FontSize="20" FontAttributes="Bold" Margin="0,5,0,0"/>
             <Image Source="scrolls.png" HeightRequest="50"/>
-            <ListView ItemsSource="{Binding _scribe.ScrollLibrary, Mode=TwoWay}" HasUnevenRows="true">
+
+            <!--___________________________________________ListView________________________________________________________ -->
+            <ListView ItemsSource="{Binding _scribe.ScrollLibrary, Mode=TwoWay}" 
+                      HasUnevenRows="true">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="50"/>
-                                    <ColumnDefinition Width="2"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="50"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition/>
-                                    <RowDefinition Height="0"/>
-                                </Grid.RowDefinitions>
+                            <xct:Expander x:Name="ScrollExpander">
+                                
+                                <!--_________________________________Expander Header________________________________________-->
+                                <xct:Expander.Header>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="50"/>
+                                            <ColumnDefinition Width="2"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="50"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition Height="0"/>
+                                        </Grid.RowDefinitions>
 
-                                <StackLayout Grid.Column="0" Orientation="Vertical" >
-                                    <Label Text="{Binding EntryDate.Day}" TextColor="#787878" HorizontalOptions="Center" FontSize="30" FontAttributes="Bold"/>
-                                    <Label Text="{Binding EntryDate, StringFormat='{0:MMM}'}" TextColor="#787878" Margin="0,-15,0,0" HorizontalOptions="Center" FontAttributes="Bold"/>
-                                    <Label Text="{Binding EntryDate.Year}" TextColor="#787878" Margin="0,-10,0,0" HorizontalOptions="Center" FontAttributes="Bold"/>
-                                </StackLayout>
-                                <Frame Grid.Column="1" Grid.RowSpan="2" Background="#787878" Margin="0,5,0,5" />
-                                <StackLayout Grid.Column="2" Orientation="Vertical" >
-                                    <Label Text="{Binding Title}" TextColor="#787878" FontSize="20" FontAttributes="Bold" MaxLines="5"/>
-                                    <Label Text="{Binding ScrollContent}" TextColor="#787878" FontSize="12" FontAttributes="Bold" MaxLines="2" />
-                                </StackLayout>
-                                <Frame Grid.Column="3" Grid.Row="0" Margin="0,0,3,0" Padding="0" VerticalOptions="Start" HeightRequest="50" CornerRadius="10" >
-                                    <Image Source="{Binding Mood, StringFormat='mood_aquaScale_{0}.png'}" Aspect="AspectFill">
-                                    </Image>
-                                </Frame>
-                            </Grid>
-                            
-                            
-                            <!--
-                            <StackLayout Orientation="Vertical" Padding="5,5,0,0">
-                                <StackLayout Orientation="Horizontal">
-                                    <StackLayout Orientation="Vertical" MinimumWidthRequest="50">
-                                        <Label Text="{Binding Day}" TextColor="#787878" HorizontalOptions="Center" FontSize="30" FontAttributes="Bold"/>
-                                        <Label Text="{Binding Month}" TextColor="#787878" Margin="0,-15,0,0" HorizontalOptions="Center" FontAttributes="Bold"/>
-                                        <Label Text="{Binding Year}" TextColor="#787878" Margin="0,-10,0,0" HorizontalOptions="Center" FontAttributes="Bold"/>
+                                        <StackLayout Grid.Column="0" Orientation="Vertical" >
+                                            <Label Text="{Binding EntryDate.Day}" 
+                                                   TextColor="#787878" 
+                                                   HorizontalOptions="Center" 
+                                                   FontSize="30" 
+                                                   FontAttributes="Bold"/>
+                                            <Label Text="{Binding EntryDate, StringFormat='{0:MMM}'}" 
+                                                   TextColor="#787878" Margin="0,-15,0,0" 
+                                                   HorizontalOptions="Center" 
+                                                   FontAttributes="Bold"/>
+                                            <Label Text="{Binding EntryDate.Year}" 
+                                                   TextColor="#787878" 
+                                                   Margin="0,-10,0,0" 
+                                                   HorizontalOptions="Center" 
+                                                   FontAttributes="Bold"/>
+                                        </StackLayout>
+                                        <Frame Grid.Column="1" 
+                                               Grid.RowSpan="2" 
+                                               Background="#787878" 
+                                               Margin="0,5,0,5">
+                                            <Frame.Triggers>
+                                                <DataTrigger TargetType="Frame"
+                                                             Binding="{Binding Source={x:Reference ScrollExpander}, Path=IsExpanded}"
+                                                             Value="True">
+                                                    <Setter Property="Margin"
+                                                            Value="0,5,0,0"/>
+                                                </DataTrigger>
+                                            </Frame.Triggers>
+                                        </Frame>
+
+                                        <Label Text="{Binding Title}" 
+                                               Grid.Column="2" 
+                                               TextColor="#787878" 
+                                               FontSize="Large" 
+                                               FontAttributes="Bold" 
+                                               MaxLines="5"/>
+                                        <Frame Grid.Column="3" 
+                                               Grid.Row="0" 
+                                               Margin="0,5,3,0" 
+                                               Padding="0" 
+                                               VerticalOptions="Start" 
+                                               HeightRequest="50" 
+                                               CornerRadius="10" >
+                                            <Image Source="{Binding Mood, StringFormat='mood_aquaScale_{0}.png'}" 
+                                                   Aspect="AspectFill">
+                                            </Image>
+                                        </Frame>
+                                    </Grid>
+                                </xct:Expander.Header>
+                                
+                                <!--_________________________________Expander content_______________________________________-->
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="2"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"/>
+                                    </Grid.RowDefinitions>
+                                    <StackLayout Grid.Column="0">
+                                        <!--ToDo: Add Binding-->
+                                        <ImageButton Source="editIcon.png" 
+                                                     BackgroundColor="#7FFFFFFF"
+                                                     WidthRequest="40"
+                                                     HeightRequest="40"
+                                                     Aspect="Fill"
+                                                     Margin="3,5,3,-5"
+                                                     HorizontalOptions="Center"/>
+                                        <Label Text="Edit" 
+                                               HorizontalOptions="Center" 
+                                               TextColor="#787878" 
+                                               FontAttributes="Bold"
+                                               FontSize="Small"/>
+
+                                        <!--ToDo: Add Binding-->
+                                        <ImageButton Source="discardIcon.png" 
+                                                     BackgroundColor="#7FFFFFFF"
+                                                     WidthRequest="40"
+                                                     HeightRequest="40"
+                                                     Aspect="Fill"
+                                                     Margin="3,5,3,-5"
+                                                     HorizontalOptions="Center"
+                                                      />
+                                        <Label Text="Discard" 
+                                               HorizontalOptions="Center" 
+                                               TextColor="#787878" 
+                                               FontAttributes="Bold"
+                                               FontSize="Small"
+                                               Margin="1,0,0,0"/>
                                     </StackLayout>
-                                    <Line Y2="200" Stroke="#787878" Margin="1" VerticalOptions="Start" StrokeThickness="5" />
-                                    <StackLayout Orientation="Vertical" >
-                                        <Label Text="{Binding Title}" TextColor="#787878" FontSize="20" FontAttributes="Bold" MaxLines="5"/>
-                                        <Label Text="{Binding ScrollContent}" TextColor="#787878" FontSize="12" FontAttributes="Bold" MaxLines="2" />
-                                    </StackLayout>
-                                    <Image Source="scrolls.png" HeightRequest="50" WidthRequest="50" HorizontalOptions="EndAndExpand" Margin="0,0,10,0"/>
-                                </StackLayout>
-                            </StackLayout>
-                            -->
+                                    <Frame Grid.Column="1" 
+                                           Background="#787878" 
+                                           Margin="0,0,0,0" />
+                                    <Label Grid.Column="2" 
+                                           Text="{Binding ScrollContent}" 
+                                           TextColor="#787878" 
+                                           FontSize="Medium" 
+                                           FontAttributes="Bold"/>
+                                </Grid>
+                                
+                                
+                                
+                            </xct:Expander>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+
+
+
+
         </StackLayout>
-        
-        
-            
     </ContentPage.Content>
 </ContentPage>
