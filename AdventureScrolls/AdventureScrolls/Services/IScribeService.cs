@@ -7,6 +7,7 @@ namespace AdventureScrolls.Services
     {
         ObservableCollection<ScrollModel> ScrollLibrary { get; }
         ObservableCollection<ScrollModel> GetScrolls();
+        void RemoveScroll(object scrollToDelete);
         void StoreNewScroll(ScrollModel scrollToStore);
     }
 }

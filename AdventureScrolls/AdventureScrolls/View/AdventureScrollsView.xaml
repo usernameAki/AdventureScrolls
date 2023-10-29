@@ -5,7 +5,9 @@
              xmlns:local="clr-namespace:AdventureScrolls"
              x:Class="AdventureScrolls.View.AdventureScrollsView"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-             BackgroundColor="#191919">
+             BackgroundColor="#191919"
+             x:Name="Root"
+             NavigationPage.HasNavigationBar="false">
     <ContentPage.BindingContext>
         <viewModel:AdventureScrollsViewModel/>
     </ContentPage.BindingContext>
@@ -25,7 +27,8 @@
             <Image Source="scrolls.png" HeightRequest="50"/>
 
             <!--___________________________________________ListView________________________________________________________ -->
-            <ListView ItemsSource="{Binding _scribe.ScrollLibrary, Mode=TwoWay}" 
+            <ListView x:Name="ScrollsListView"
+                      ItemsSource="{Binding _scribe.ScrollLibrary, Mode=TwoWay}" 
                       HasUnevenRows="true">
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -75,6 +78,7 @@
                                                 </DataTrigger>
                                             </Frame.Triggers>
                                         </Frame>
+                                        
 
                                         <Label Text="{Binding Title}" 
                                                Grid.Column="2" 
@@ -108,42 +112,36 @@
                                     </Grid.RowDefinitions>
                                     <StackLayout Grid.Column="0">
                                         <!--ToDo: Add Binding-->
-                                        <ImageButton Source="editIcon.png" 
+                                        <ImageButton x:Name="Edit"
+                                                     Source="editIcon.png" 
                                                      BackgroundColor="#7FFFFFFF"
                                                      WidthRequest="40"
                                                      HeightRequest="40"
                                                      Aspect="Fill"
-                                                     Margin="3,5,3,-5"
-                                                     HorizontalOptions="Center"/>
-                                        <Label Text="Edit" 
-                                               HorizontalOptions="Center" 
-                                               TextColor="#787878" 
-                                               FontAttributes="Bold"
-                                               FontSize="Small"/>
+                                                     Margin="3,15,3,-5"
+                                                     HorizontalOptions="Center"
+                                                     Command="{Binding Source={x:Reference Root}, Path=BindingContext.EditScroll}"
+                                                     CommandParameter="{Binding .}"/>
 
                                         <!--ToDo: Add Binding-->
-                                        <ImageButton Source="discardIcon.png" 
+                                        <ImageButton Source="discardIcon256x256.png" 
                                                      BackgroundColor="#7FFFFFFF"
                                                      WidthRequest="40"
                                                      HeightRequest="40"
                                                      Aspect="Fill"
-                                                     Margin="3,5,3,-5"
+                                                     Margin="3,15,3,-5"
                                                      HorizontalOptions="Center"
-                                                      />
-                                        <Label Text="Discard" 
-                                               HorizontalOptions="Center" 
-                                               TextColor="#787878" 
-                                               FontAttributes="Bold"
-                                               FontSize="Small"
-                                               Margin="1,0,0,0"/>
+                                                     Command="{Binding Source={x:Reference Root}, Path=BindingContext.RemoveScroll}"
+                                                     CommandParameter="{Binding .}" />
                                     </StackLayout>
                                     <Frame Grid.Column="1" 
                                            Background="#787878" 
-                                           Margin="0,0,0,0" />
+                                           Margin="0,0,0,5" />
                                     <Label Grid.Column="2" 
+                                           IsEnabled="False"
                                            Text="{Binding ScrollContent}" 
                                            TextColor="#787878" 
-                                           FontSize="Medium" 
+                                           FontSize="Small" 
                                            FontAttributes="Bold"/>
                                 </Grid>
                                 

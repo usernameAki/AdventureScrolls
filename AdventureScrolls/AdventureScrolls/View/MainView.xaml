@@ -11,6 +11,10 @@
             UnselectedTabColor="black"
              >
   <!--Pages can be added as references or inline-->
-    <view:AdventureScrollsView Title="Adventure Scrolls" IconImageSource="scrolls.png"/>
+    <NavigationPage Title="Adventure Scrolls" IconImageSource="scrolls.png">
+        <x:Arguments>
+            <view:AdventureScrollsView />
+        </x:Arguments>
+    </NavigationPage>
     <view:WriteAdventureView  Title="Write adventure"  IconImageSource="feather.png"/>
 </TabbedPage>

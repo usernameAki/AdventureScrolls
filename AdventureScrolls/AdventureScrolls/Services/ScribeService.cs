@@ -4,6 +4,8 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using Xamarin.Forms;
+using Xamarin.Forms.Internals;
 
 namespace AdventureScrolls.Services
 {
@@ -44,6 +46,19 @@ namespace AdventureScrolls.Services
         {
             ScrollLibrary.Add(new ScrollModel(scrollToStore));
             StoreScrolls(ScrollLibrary);
+        }
+        public async void RemoveScroll(object scrollToDelete)
+        {
+            try
+            {
+                int index = ScrollLibrary.IndexOf(scrollToDelete);
+                ScrollLibrary.RemoveAt(index);
+                StoreScrolls(ScrollLibrary);
+            }
+            catch (Exception e)
+            {
+                await Application.Current.MainPage.DisplayAlert("error", "Scroll could not be removed. Exception: " + e.ToString(), "ok" );
+            }
         }
     }
 }
