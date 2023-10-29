@@ -28,7 +28,7 @@
 
             <!--___________________________________________ListView________________________________________________________ -->
             <ListView x:Name="ScrollsListView"
-                      ItemsSource="{Binding _scribe.ScrollLibrary, Mode=TwoWay}" 
+                      ItemsSource="{Binding _scribe.ScrollLibrary, Mode=OneWay}" 
                       HasUnevenRows="true">
                 <ListView.ItemTemplate>
                     <DataTemplate>

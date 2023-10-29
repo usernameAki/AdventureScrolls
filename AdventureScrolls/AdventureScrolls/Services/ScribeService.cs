@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 
@@ -12,52 +13,65 @@ namespace AdventureScrolls.Services
     public class ScribeService : IScribeService
     {
         public string filePath;
-        public ObservableCollection<ScrollModel> ScrollLibrary { get; set; }
+        private ObservableCollection<ScrollModel> _scrollLibrary;
+        public ObservableCollection<ScrollModel> ScrollLibrary 
+        {
+            get => _scrollLibrary;
+            set
+            {
+                _scrollLibrary = value;
+            }
+        }
 
         public ScribeService()
         {
             filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "ScrollLibrary.json");
-            //File.Delete(filePath); //DELETE DATA - for test purpose
-            ScrollLibrary = GetScrolls();
-        }
-        private void StoreScrolls(ObservableCollection<ScrollModel> scrollLibraryToStore)
-        {
-            string json = JsonConvert.SerializeObject(scrollLibraryToStore, Formatting.Indented);
-            File.WriteAllText(filePath, json);
+            ScrollLibrary = new ObservableCollection<ScrollModel>();
+            GetScrolls();
         }
 
-        public ObservableCollection<ScrollModel> GetScrolls()
+        public void GetScrolls()
         {
             if (!File.Exists(filePath))
             {
                 CreateEmptyScrollLibrary();
             }
             string json = File.ReadAllText(filePath);
-            return JsonConvert.DeserializeObject<ObservableCollection<ScrollModel>>(json);
+            ObservableCollection<ScrollModel> temp = JsonConvert.DeserializeObject<ObservableCollection<ScrollModel>>(json);
+            temp = new ObservableCollection<ScrollModel>(temp.OrderByDescending(x => x.EntryDate));
+            ScrollLibrary.Clear();
+            foreach(ScrollModel scroll in temp)
+            {
+                ScrollLibrary.Add(scroll);
+            }
         }
-
         private void CreateEmptyScrollLibrary()
         {
-            ScrollLibrary = new ObservableCollection<ScrollModel>();
             StoreScrolls(ScrollLibrary);
         }
-
+        private void StoreScrolls(ObservableCollection<ScrollModel> scrollLibraryToStore)
+        {
+            string json = JsonConvert.SerializeObject(scrollLibraryToStore, Formatting.Indented);
+            File.WriteAllText(filePath, json);
+        }
         public void StoreNewScroll(ScrollModel scrollToStore)
         {
             ScrollLibrary.Add(new ScrollModel(scrollToStore));
             StoreScrolls(ScrollLibrary);
+            GetScrolls();
         }
-        public async void RemoveScroll(object scrollToDelete)
+        public void RemoveScroll(object scrollToDelete)
         {
             try
             {
                 int index = ScrollLibrary.IndexOf(scrollToDelete);
                 ScrollLibrary.RemoveAt(index);
                 StoreScrolls(ScrollLibrary);
+                GetScrolls();
             }
             catch (Exception e)
             {
-                await Application.Current.MainPage.DisplayAlert("error", "Scroll could not be removed. Exception: " + e.ToString(), "ok" );
+                Application.Current.MainPage.DisplayAlert("error " + ScrollLibrary.IndexOf(scrollToDelete), "Scroll could not be removed. Exception: " + e.ToString(), "ok" );
             }
         }
     }

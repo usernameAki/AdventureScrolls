@@ -12,14 +12,12 @@ namespace AdventureScrolls.ViewModel
 {
     public class AdventureScrollsViewModel : BaseViewModel
     {
-        public ObservableCollection<ScrollModel> ScrollLibrary { get; }
         public IScribeService _scribe { get; }
         public Command EditScroll { get; }
         public Command RemoveScroll { get; }
         public AdventureScrollsViewModel()
         {
             _scribe = DependencyService.Get<IScribeService>();
-            ScrollLibrary = _scribe.ScrollLibrary;
             EditScroll = new Command(o => Console.WriteLine(nameof(o)));
             RemoveScroll = new Command(o => _scribe.RemoveScroll(o));
         }
