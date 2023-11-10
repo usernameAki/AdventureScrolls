@@ -40,5 +40,12 @@
 		<!--cancel&ok-->
 		<item name="android:textColor">#FFFFFF</item>
   </style>
+
+	<style name="CustomTabLayout" parent="Widget.Design.TabLayout">
+		<item name="tabTextAppearance">@style/CustomTabText</item>
+	</style>
+	<style name="CustomTabText">
+		<item name="android:textSize">0sp</item>
+	</style>
 	
 </resources>
