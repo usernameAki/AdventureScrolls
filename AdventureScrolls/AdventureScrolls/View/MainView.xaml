@@ -9,12 +9,14 @@
             BarBackgroundColor="Gray"
             SelectedTabColor="white"
             UnselectedTabColor="black"
+            
              >
-  <!--Pages can be added as references or inline-->
-    <NavigationPage Title="Adventure Scrolls" IconImageSource="scrolls.png">
+    <!--Pages can be added as references or inline-->
+    <!--NavigationPage IconImageSource="scrolls.png">
         <x:Arguments>
             <view:AdventureScrollsView />
         </x:Arguments>
-    </NavigationPage>
-    <view:WriteAdventureView  Title="Write adventure"  IconImageSource="feather.png"/>
+    </NavigationPage-->
+    <view:AdventureScrollsView  Title="Adventure Scrolls"  IconImageSource="scrolls.png"/>
+    <view:WriteAdventureView IconImageSource="feather.png" />
 </TabbedPage>
