@@ -9,5 +9,6 @@ namespace AdventureScrolls.Services
         void GetScrolls();
         void RemoveScroll(object scrollToDelete);
         void StoreNewScroll(ScrollModel scrollToStore);
+        void OverrideScroll();
     }
 }

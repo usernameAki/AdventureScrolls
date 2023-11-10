@@ -13,15 +13,7 @@ namespace AdventureScrolls.Services
     public class ScribeService : IScribeService
     {
         public string filePath;
-        private ObservableCollection<ScrollModel> _scrollLibrary;
-        public ObservableCollection<ScrollModel> ScrollLibrary 
-        {
-            get => _scrollLibrary;
-            set
-            {
-                _scrollLibrary = value;
-            }
-        }
+        public ObservableCollection<ScrollModel> ScrollLibrary {get; set;}
 
         public ScribeService()
         {
@@ -60,6 +52,11 @@ namespace AdventureScrolls.Services
             StoreScrolls(ScrollLibrary);
             GetScrolls();
         }
+        public void OverrideScroll()
+        {
+            StoreScrolls(ScrollLibrary);
+            GetScrolls();
+        }
         public void RemoveScroll(object scrollToDelete)
         {
             try
@@ -71,7 +68,8 @@ namespace AdventureScrolls.Services
             }
             catch (Exception e)
             {
-                Application.Current.MainPage.DisplayAlert("error " + ScrollLibrary.IndexOf(scrollToDelete), "Scroll could not be removed. Exception: " + e.ToString(), "ok" );
+                Application.Current.MainPage.DisplayAlert("error " + ScrollLibrary.IndexOf(scrollToDelete), 
+                    "Scroll could not be removed. Exception: " + e.ToString(), "ok" );
             }
         }
     }
