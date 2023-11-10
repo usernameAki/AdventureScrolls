@@ -4,6 +4,7 @@ using Android.App;
 using Android.Content.PM;
 using Android.Runtime;
 using Android.OS;
+using Prism.Plugin.Popups;
 
 namespace AdventureScrolls.Droid
 {
@@ -26,7 +27,7 @@ namespace AdventureScrolls.Droid
         }
         public override void OnBackPressed()
         {
-            Rg.Plugins.Popup.Popup.SendBackPressed(base.OnBackPressed);
+            PopupPlugin.OnBackPressed();
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
