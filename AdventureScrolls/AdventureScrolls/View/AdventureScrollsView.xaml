@@ -8,9 +8,9 @@
              BackgroundColor="#191919"
              x:Name="Root"
              NavigationPage.HasNavigationBar="false">
-    <ContentPage.BindingContext>
+    <!--ContentPage.BindingContext>
         <viewModel:AdventureScrollsViewModel/>
-    </ContentPage.BindingContext>
+    </ContentPage.BindingContext-->
 
 
 
@@ -28,13 +28,13 @@
 
             <!--___________________________________________ListView________________________________________________________ -->
             <ListView x:Name="ScrollsListView"
-                      ItemsSource="{Binding _scribe.ScrollLibrary, Mode=OneWay}" 
+                      ItemsSource="{Binding Scribe.ScrollLibrary, Mode=OneWay}" 
                       HasUnevenRows="true">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
                             <xct:Expander x:Name="ScrollExpander">
-                                
+
                                 <!--_________________________________Expander Header________________________________________-->
                                 <xct:Expander.Header>
                                     <Grid>
@@ -44,10 +44,6 @@
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="50"/>
                                         </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition/>
-                                            <RowDefinition Height="0"/>
-                                        </Grid.RowDefinitions>
 
                                         <StackLayout Grid.Column="0" Orientation="Vertical" >
                                             <Label Text="{Binding EntryDate.Day}" 
@@ -66,7 +62,6 @@
                                                    FontAttributes="Bold"/>
                                         </StackLayout>
                                         <Frame Grid.Column="1" 
-                                               Grid.RowSpan="2" 
                                                Background="#787878" 
                                                Margin="0,5,0,5">
                                             <Frame.Triggers>
@@ -78,7 +73,7 @@
                                                 </DataTrigger>
                                             </Frame.Triggers>
                                         </Frame>
-                                        
+
 
                                         <Label Text="{Binding Title}" 
                                                Grid.Column="2" 
@@ -87,7 +82,6 @@
                                                FontAttributes="Bold" 
                                                MaxLines="5"/>
                                         <Frame Grid.Column="3" 
-                                               Grid.Row="0" 
                                                Margin="0,5,3,0" 
                                                Padding="0" 
                                                VerticalOptions="Start" 
@@ -99,7 +93,7 @@
                                         </Frame>
                                     </Grid>
                                 </xct:Expander.Header>
-                                
+
                                 <!--_________________________________Expander content_______________________________________-->
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -109,6 +103,7 @@
                                     </Grid.ColumnDefinitions>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="5"/>
                                     </Grid.RowDefinitions>
                                     <StackLayout Grid.Column="0">
                                         <!--ToDo: Add Binding-->
@@ -129,12 +124,13 @@
                                                      WidthRequest="40"
                                                      HeightRequest="40"
                                                      Aspect="Fill"
-                                                     Margin="3,15,3,-5"
+                                                     Margin="3,15,3,10"
                                                      HorizontalOptions="Center"
                                                      Command="{Binding Source={x:Reference Root}, Path=BindingContext.RemoveScroll}"
                                                      CommandParameter="{Binding .}" />
                                     </StackLayout>
                                     <Frame Grid.Column="1" 
+                                           Grid.RowSpan="2"
                                            Background="#787878" 
                                            Margin="0,0,0,5" />
                                     <Label Grid.Column="2" 
@@ -144,18 +140,11 @@
                                            FontSize="Small" 
                                            FontAttributes="Bold"/>
                                 </Grid>
-                                
-                                
-                                
                             </xct:Expander>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-
-
-
-
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

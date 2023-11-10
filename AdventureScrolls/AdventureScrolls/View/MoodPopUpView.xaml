@@ -4,9 +4,9 @@
              x:Class="AdventureScrolls.View.MoodPopUpView"
              xmlns:popup="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
              xmlns:viewModel="clr-namespace:AdventureScrolls.ViewModel">
-    <popup:PopupPage.BindingContext>
+    <!--popup:PopupPage.BindingContext>
         <viewModel:WriteAdventureViewModel/>
-    </popup:PopupPage.BindingContext>
+    </popup:PopupPage.BindingContext-->
     <Frame HorizontalOptions="Center" 
            VerticalOptions="Center" 
            Background="#3d3d3d"
