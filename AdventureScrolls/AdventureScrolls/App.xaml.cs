@@ -33,7 +33,8 @@ namespace AdventureScrolls
             containerRegistry.RegisterForNavigation<WriteAdventureView>();
             containerRegistry.RegisterPopupNavigationService();
             containerRegistry.RegisterPopupDialogService();
-            containerRegistry.RegisterDialog<MoodPopUpView, WriteAdventureViewModel>();
+            containerRegistry.RegisterDialog<MoodPopUpView, MoodPopUpViewModel>();
+            //containerRegistry.RegisterDialog<MoodPopUpView, WriteAdventureViewModel>();
         }
         protected override void ConfigureViewModelLocator()
         {

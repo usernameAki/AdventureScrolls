@@ -66,11 +66,11 @@ namespace AdventureScrolls.ViewModel
 
 
             //Changes mood and closes popup
-            ChangeMood = new Command(parameter =>
-            {
-                Scroll.Mood = parameter.ToString();
-                PopupNavigation.Instance.PopAsync();
-            });
+            //ChangeMood = new Command(parameter =>
+            //{
+            //    Scroll.Mood = parameter.ToString();
+            //    PopupNavigation.Instance.PopAsync();
+            //});
 
         }
 
@@ -80,8 +80,11 @@ namespace AdventureScrolls.ViewModel
 
         public void OnNavigatedTo(INavigationParameters parameters)
         {
-            _editingMode = true;
-            Scroll = parameters.GetValue<ScrollModel>("Scroll");
+            if(parameters.GetValue<ScrollModel>("Scroll") != null)
+            {
+                _editingMode = true;
+                Scroll = parameters.GetValue<ScrollModel>("Scroll");
+            }
             //Scroll.ScrollContent = temp.ScrollContent;
             //Scroll.Title = temp.Title;
             //Scroll.EntryDate = temp.EntryDate;
