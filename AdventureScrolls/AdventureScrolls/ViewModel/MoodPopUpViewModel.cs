@@ -15,6 +15,7 @@ namespace AdventureScrolls.ViewModel
         public Command ChangeMood { get; }
         public MoodPopUpViewModel(INavigationService navigationService) : base(navigationService)
         {
+            //Changes Mood in pased ScrollModel, and closes itself.
             ChangeMood = new Command(parameter =>
             {
                 Scroll.Mood = parameter.ToString();
@@ -26,6 +27,7 @@ namespace AdventureScrolls.ViewModel
         }
 
         public void OnNavigatedTo(INavigationParameters parameters)
+            //After navigating to this popup WE NEED to pass ScrollModel as parameter, in order to make changes.
         {
             Scroll = parameters.GetValue<ScrollModel>("Scroll");
         }

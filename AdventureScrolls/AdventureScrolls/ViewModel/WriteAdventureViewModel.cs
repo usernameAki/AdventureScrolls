@@ -29,7 +29,6 @@ namespace AdventureScrolls.ViewModel
         private readonly IScribeService _scribeService;
         public WriteAdventureViewModel(INavigationService navigationService) : base(navigationService)
         {
-            //Pass new scroll through DI
             _editingMode = false;
             _scrollCreatorService = DependencyService.Get<IScrollCreatorService>();
             _scribeService = DependencyService.Get<IScribeService>();
@@ -48,6 +47,8 @@ namespace AdventureScrolls.ViewModel
             });
 
             //Stores new scroll
+            //If editingMode is false, then this command will add and save new ScrollModel in our diary.
+            //Otherwise, command will override existing entry and save file. After saving editingMode will be switched off.
             StoreScroll = new Command(o => 
             { 
                 if(!_editingMode)
@@ -64,20 +65,15 @@ namespace AdventureScrolls.ViewModel
                 }
             });
 
-
-            //Changes mood and closes popup
-            //ChangeMood = new Command(parameter =>
-            //{
-            //    Scroll.Mood = parameter.ToString();
-            //    PopupNavigation.Instance.PopAsync();
-            //});
-
         }
 
-        public void OnNavigatedFrom(INavigationParameters parameters)
+        public void OnNavigatedFrom(INavigationParameters parameters) //INavigationAware interface. It has to be here...
         {
         }
-
+        /// <summary>
+        /// When navigated to this VM with parameter of type ScrollModel, then we gonna turn on editingMode.
+        /// EditingMode allow us to operate on passed ScrollModel in order to change existing entry in diary.
+        /// </summary>
         public void OnNavigatedTo(INavigationParameters parameters)
         {
             if(parameters.GetValue<ScrollModel>("Scroll") != null)
@@ -85,10 +81,6 @@ namespace AdventureScrolls.ViewModel
                 _editingMode = true;
                 Scroll = parameters.GetValue<ScrollModel>("Scroll");
             }
-            //Scroll.ScrollContent = temp.ScrollContent;
-            //Scroll.Title = temp.Title;
-            //Scroll.EntryDate = temp.EntryDate;
-            //Scroll.Mood = temp.Mood;
         }
     }
 }

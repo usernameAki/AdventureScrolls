@@ -21,12 +21,16 @@ namespace AdventureScrolls.ViewModel
         public AdventureScrollsViewModel(INavigationService navigationService) :base(navigationService) 
         {
             Scribe = DependencyService.Get<IScribeService>();
+
+            //Navigates to WriteAdventureView in editingMode.
             EditScroll = new Command(o => 
             {
                 var parameter = new NavigationParameters();
                 parameter.Add("Scroll", o);
                 NavigationService.NavigateAsync("WriteAdventureView", parameter);
             });
+
+            //As it says. Removes entry from diary.
             RemoveScroll = new Command(o => Scribe.RemoveScroll(o));
         }
     }

@@ -1,22 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
-             android:TabbedPage.ToolbarPlacement="Bottom"
-             xmlns:local="clr-namespace:AdventureScrolls"
-             xmlns:view="clr-namespace:AdventureScrolls.View"
-             x:Class="AdventureScrolls.View.MainView"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+            android:TabbedPage.ToolbarPlacement="Bottom"
+            xmlns:local="clr-namespace:AdventureScrolls"
+            xmlns:view="clr-namespace:AdventureScrolls.View"
+            xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+            x:Class="AdventureScrolls.View.MainView"
             BarBackgroundColor="Gray"
             SelectedTabColor="white"
             UnselectedTabColor="black"
-            
-             >
-    <!--Pages can be added as references or inline-->
-    <!--NavigationPage IconImageSource="scrolls.png">
-        <x:Arguments>
-            <view:AdventureScrollsView />
-        </x:Arguments>
-    </NavigationPage-->
-    <view:AdventureScrollsView  Title="Adventure Scrolls"  IconImageSource="scrolls.png"/>
-    <view:WriteAdventureView IconImageSource="feather.png" />
+            > 
+    
+        <view:AdventureScrollsView IconImageSource="scrolls.png" />
+        <view:WriteAdventureView IconImageSource="feather.png" />
 </TabbedPage>
