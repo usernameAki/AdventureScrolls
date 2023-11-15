@@ -31,7 +31,13 @@ namespace AdventureScrolls.ViewModel
             });
 
             //As it says. Removes entry from diary.
-            RemoveScroll = new Command(o => Scribe.RemoveScroll(o));
+            RemoveScroll = new Command(async o =>
+            {
+                ScrollModel temp = new ScrollModel(o as ScrollModel);
+                //First asks user if he intentionally wants to discard entry.
+                bool answer = await Application.Current.MainPage.DisplayAlert("Discard this scroll?", temp.Title, "Yes", "No");
+                if (answer) Scribe.RemoveScroll(o);
+            });
         }
     }
 }
