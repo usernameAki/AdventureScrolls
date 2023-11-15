@@ -27,6 +27,7 @@ namespace AdventureScrolls.ViewModel
         public Command ChangeMood {  get; }
         private readonly IScrollCreatorService _scrollCreatorService;
         private readonly IScribeService _scribeService;
+
         public WriteAdventureViewModel(INavigationService navigationService) : base(navigationService)
         {
             _editingMode = false;
@@ -35,10 +36,9 @@ namespace AdventureScrolls.ViewModel
             Scroll = _scrollCreatorService.NewScroll;
 
 
-
             //Commands
-
-            //Calls popup to change mood
+            //
+            //Calls popup to change mood.
             MoodButtonClicked = new Command(o => 
             {
                 var parameter = new NavigationParameters();
@@ -50,19 +50,30 @@ namespace AdventureScrolls.ViewModel
             //If editingMode is false, then this command will add and save new ScrollModel in our diary.
             //Otherwise, command will override existing entry and save file. After saving editingMode will be switched off.
             StoreScroll = new Command(o => 
-            { 
-                if(!_editingMode)
+            {
+                if (string.IsNullOrEmpty(Scroll.Title)) //Checks if title is empty.
                 {
-                    _scribeService.StoreNewScroll(Scroll);
-                    Scroll.CleanData();
-                }
-                else
+                    Application.Current.MainPage.DisplayAlert("Attention", "Storing unnamed Scrolls is forbidden!", "Yes Your Highness");
+                }else if(string.IsNullOrEmpty(Scroll.ScrollContent)) // Checks if content is empty.
                 {
-                    _scribeService.OverrideScroll();
-                    _editingMode = false;
-                    Scroll = _scrollCreatorService.NewScroll;
-                    navigationService.NavigateAsync("/MainView");
+                    Application.Current.MainPage.DisplayAlert("Attention", "Storing Scrolls without content is forbidden!", "Yes Your Highness");
                 }
+                else // If entry have title and content, then it will be saved.
+                {
+                    if (!_editingMode)
+                    {
+                        _scribeService.StoreNewScroll(Scroll);
+                        Scroll.CleanData();
+                    }
+                    else
+                    {
+                        _scribeService.OverrideScroll();
+                        _editingMode = false;
+                        Scroll = _scrollCreatorService.NewScroll;
+                        navigationService.NavigateAsync("/MainView");
+                    }
+                }
+                
             });
 
         }
@@ -70,6 +81,7 @@ namespace AdventureScrolls.ViewModel
         public void OnNavigatedFrom(INavigationParameters parameters) //INavigationAware interface. It has to be here...
         {
         }
+
         /// <summary>
         /// When navigated to this VM with parameter of type ScrollModel, then we gonna turn on editingMode.
         /// EditingMode allow us to operate on passed ScrollModel in order to change existing entry in diary.
