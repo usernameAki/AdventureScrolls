@@ -25,15 +25,13 @@ namespace AdventureScrolls.ViewModel
         public Command MoodButtonClicked { get; }
         public Command StoreScroll {  get; }
         public Command ChangeMood {  get; }
-        private readonly IScrollCreatorService _scrollCreatorService;
         private readonly IScribeService _scribeService;
 
         public WriteAdventureViewModel(INavigationService navigationService) : base(navigationService)
         {
             _editingMode = false;
-            _scrollCreatorService = DependencyService.Get<IScrollCreatorService>();
             _scribeService = DependencyService.Get<IScribeService>();
-            Scroll = _scrollCreatorService.NewScroll;
+            Scroll = new ScrollModel();
 
 
             //Commands
@@ -69,7 +67,7 @@ namespace AdventureScrolls.ViewModel
                     {
                         _scribeService.OverrideScroll();
                         _editingMode = false;
-                        Scroll = _scrollCreatorService.NewScroll;
+                        Scroll = new ScrollModel();
                         navigationService.NavigateAsync("/MainView");
                     }
                 }

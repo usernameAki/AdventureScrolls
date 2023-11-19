@@ -22,7 +22,6 @@ namespace AdventureScrolls
         {
             InitializeComponent();
             DependencyService.Register<IScribeService, ScribeService>();
-            DependencyService.Register<IScrollCreatorService, ScrollCreatorService>();
             await NavigationService.NavigateAsync("MainView");
         }
 

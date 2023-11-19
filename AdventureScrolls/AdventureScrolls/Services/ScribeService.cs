@@ -26,7 +26,7 @@ namespace AdventureScrolls.Services
         {
             if (!File.Exists(filePath))
             {
-                CreateEmptyScrollLibrary();
+                StoreScrolls(ScrollLibrary);
             }
             string json = File.ReadAllText(filePath);
             ObservableCollection<ScrollModel> temp = JsonConvert.DeserializeObject<ObservableCollection<ScrollModel>>(json);
@@ -36,10 +36,6 @@ namespace AdventureScrolls.Services
             {
                 ScrollLibrary.Add(scroll);
             }
-        }
-        private void CreateEmptyScrollLibrary()
-        {
-            StoreScrolls(ScrollLibrary);
         }
         private void StoreScrolls(ObservableCollection<ScrollModel> scrollLibraryToStore)
         {
