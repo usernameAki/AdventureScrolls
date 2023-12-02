@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AdventureScrolls.View.SettingsView">
+    <ContentPage.Content>
+        <StackLayout>
+            <Button VerticalOptions="Center" Text="Connect to google drive" Command="{Binding ConnectToGD}"/>
+            <Button VerticalOptions="Center" Text="SaveFilesOnGoogle" Command="{Binding SaveFilesOnGoogle}"/>
+            <Button VerticalOptions="Center" Text="DownloadFilesOnGoogle" Command="{Binding DownloadFilesOnGoogle}"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

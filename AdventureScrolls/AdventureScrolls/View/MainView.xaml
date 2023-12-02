@@ -14,4 +14,5 @@
     
         <view:AdventureScrollsView IconImageSource="scrolls.png" />
         <view:WriteAdventureView IconImageSource="feather.png" />
+        <view:SettingsView IconImageSource="feather.png" />
 </TabbedPage>

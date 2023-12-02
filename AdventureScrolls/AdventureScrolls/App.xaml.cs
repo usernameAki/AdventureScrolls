@@ -30,6 +30,7 @@ namespace AdventureScrolls
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainView>();
             containerRegistry.RegisterForNavigation<WriteAdventureView>();
+            containerRegistry.RegisterForNavigation<SettingsView>();
             containerRegistry.RegisterPopupNavigationService();
             containerRegistry.RegisterPopupDialogService();
             containerRegistry.RegisterDialog<MoodPopUpView, MoodPopUpViewModel>();
