@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Drive.v3;
 using Google.Apis.Services;
-using Google.Apis.Util.Store;
 using System.IO;
-using System.Threading;
 using Xamarin.Essentials;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -15,14 +12,12 @@ using AdventureScrolls.Model;
 using System.Linq;
 using System.Collections.ObjectModel;
 using Newtonsoft.Json.Linq;
-using Xamarin.Forms.PlatformConfiguration;
-using Xamarin.Forms;
 using System.Reflection;
 
 namespace AdventureScrolls.Services
 {
-    //Since ClientID contain sensitive data I will keep my Google ClientID secret till I find a solution.
-    //This means that without ClientID this app have no possibility to access Google API.
+    //This class maintain authorization process between app and user's google drive for backup purposes.
+    //After authorization succeed, user can store diary data on google drive or download existing data.
     public class GoogleDriveService
     {
         private DriveService _service;
@@ -38,17 +33,14 @@ namespace AdventureScrolls.Services
             string clientID = string.Empty;
             var assembly = IntrospectionExtensions.GetTypeInfo(typeof(GoogleDriveService)).Assembly;
 
-            //This file contain sensitive data, and will be not shared.
-            Stream stream = assembly.GetManifestResourceStream("AdventureScrolls.Resources.GDToken.json");
-
             //Read client ID property from json file.
+            Stream stream = assembly.GetManifestResourceStream("AdventureScrolls.Resources.GDToken.json");
             using ( var reader = new StreamReader(stream))
             {
                 var json = reader.ReadToEnd();
                 var jObject = JObject.Parse(json);
                 clientID = jObject["installed"]["client_id"].ToString();
             }
-
             return clientID;
         }
 
