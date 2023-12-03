@@ -15,6 +15,10 @@ using Newtonsoft.Json.Linq;
 using System.Reflection;
 using static Google.Apis.Auth.OAuth2.Web.AuthorizationCodeWebApp;
 
+
+// I still need to clean and organize code here... （￣。。￣）
+
+
 namespace AdventureScrolls.Services
 {
     //This class maintain authorization process between app and user's google drive for backup purposes.
@@ -44,10 +48,19 @@ namespace AdventureScrolls.Services
             }
             return clientID;
         }
+
+        //We call this method first, to check if there is any access token already stored on device.
+        //If no, then standard procedure of authorization process will be launched.
+        //If authorization process will succeed, then access token and refresh token will be stored on device Secure Storage.
         public async Task ConnectToGoogleDrive()
         {
-            string[] oauthToken = new string[2];
             bool isTokenValid = false;
+
+            //We try to load tokens from device.
+            //If tokens exist, we will go througt loop to check if any of them is still avaible.
+            //First we check normal token, which is stored in array. If fails, loop will try with refresh token.
+            //If both cases fail, normal authorization process will be triggered.
+            string[] oauthToken = new string[2];
             oauthToken[0] = await SecureStorage.GetAsync("oauth_token");
             oauthToken[1] = await SecureStorage.GetAsync("oauth_refresh_token");
             if (oauthToken[0] != null)
@@ -66,7 +79,10 @@ namespace AdventureScrolls.Services
                         Console.WriteLine(ex.Message);
                     }
                 }
-            } else if(oauthToken[0] != null ||  !isTokenValid)
+            } 
+
+            //If we failed to login into google, normal procedure will launch here, and user have to log in again. 
+            else if(oauthToken[0] != null ||  !isTokenValid)
             {
                 await AuthenticateUser();
             }
@@ -147,7 +163,9 @@ namespace AdventureScrolls.Services
             var accessToken = JsonConvert.DeserializeObject<TokenModel>(json);
             return accessToken;
         }
-        public async Task<TokenModel> RefreshAccessToken(string refreshToken)
+
+
+        public async Task<TokenModel> RefreshAccessToken(string refreshToken) //DRY principle is sreaming here ┗|｀O′|┛
         {
             var requestUrl =
                 "https://oauth2.googleapis.com/token"
