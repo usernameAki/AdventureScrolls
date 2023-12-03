@@ -29,7 +29,7 @@ namespace AdventureScrolls.Services
                 StoreScrolls(ScrollLibrary);
             }
             string json = File.ReadAllText(filePath);
-            ObservableCollection<ScrollModel> temp = JsonConvert.DeserializeObject<ObservableCollection<ScrollModel>>(json);
+            var temp = JsonConvert.DeserializeObject<ObservableCollection<ScrollModel>>(json);
             temp = new ObservableCollection<ScrollModel>(temp.OrderByDescending(x => x.EntryDate));
             ScrollLibrary.Clear();
             foreach(ScrollModel scroll in temp)
