@@ -13,6 +13,7 @@ using System.Linq;
 using System.Collections.ObjectModel;
 using Newtonsoft.Json.Linq;
 using System.Reflection;
+using static Google.Apis.Auth.OAuth2.Web.AuthorizationCodeWebApp;
 
 namespace AdventureScrolls.Services
 {
@@ -43,43 +44,85 @@ namespace AdventureScrolls.Services
             }
             return clientID;
         }
+        public async Task ConnectToGoogleDrive()
+        {
+            string[] oauthToken = new string[2];
+            bool isTokenValid = false;
+            oauthToken[0] = await SecureStorage.GetAsync("oauth_token");
+            oauthToken[1] = await SecureStorage.GetAsync("oauth_refresh_token");
+            if (oauthToken[0] != null)
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    InitializeDriveService(oauthToken[i]);
+                    try
+                    {
+                        await RetrieveAppDataFileByName();
+                        isTokenValid = true;
+                        break;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                }
+            } else if(oauthToken[0] != null ||  !isTokenValid)
+            {
+                await AuthenticateUser();
+            }
+            
+        }
 
         /// <summary>
         /// Authorizes connection between app and users google drive using OAuth2.
         /// </summary>
         /// <returns></returns>
-        public async Task Authenticateuser()
+        public async Task AuthenticateUser()
         {
             //Authentication URL
             var authUrl = new Uri(
                 $"https://accounts.google.com/o/oauth2/v2/auth"
-                +"?client_id=" + GetClientID()
-                +"&response_type=code"
+                + "?client_id=" + GetClientID()
+                + "&response_type=code"
                 + "&scope=https://www.googleapis.com/auth/drive.appdata"
                 + "&redirect_uri=com.companyname.adventurescrolls:/redirect"
-                +"&prompt=consent");
+                + "&prompt=consent");
 
             //Callback to app
             var callbackUrl = new Uri("com.companyname.adventurescrolls://");
 
+            WebAuthenticatorResult authResult = null;
             try //login to google
             {
                 //access google login page, and get authentication results
-                var authResult = await WebAuthenticator.AuthenticateAsync(authUrl, callbackUrl); 
-
-
-                if (authResult != null)
-                {
-                    Console.WriteLine("authentication successfully.");
-                    var authorizationCode = authResult.Properties["code"];
-                    var accessToken = await GetAccessTokenAsync(authorizationCode);
-                    InitializeDriveService(accessToken.AccessToken);
-                } else { Console.WriteLine("Authentication failed!"); }
+                authResult = await WebAuthenticator.AuthenticateAsync(authUrl, callbackUrl); 
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
+
+            //If authorization succeed, app will ask for access token.
+            if (authResult != null)
+            {
+                Console.WriteLine("authentication successfully.");
+                var authorizationCode = authResult.Properties["code"];
+                var accessToken = await GetAccessTokenAsync(authorizationCode);
+
+                //Access Token and refresh Token will be stored in devices Secure Storage.
+                try
+                {
+                    await SecureStorage.SetAsync("oauth_token", accessToken.AccessToken);
+                    await SecureStorage.SetAsync("oauth_refresh_token", accessToken.RefreshToken);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+
+                InitializeDriveService(accessToken.AccessToken);
+            }
+            else { Console.WriteLine("Authentication failed!"); }
         }
         /// <summary>
         /// Exchanges authorization code for Access Token, after successfully authorization.
@@ -89,7 +132,7 @@ namespace AdventureScrolls.Services
         public async Task<TokenModel> GetAccessTokenAsync(string code)
         {
             var requestUrl =
-                "https://oauth2.googleapis.com/token"
+                $"https://oauth2.googleapis.com/token"
                 + "?code=" + code
                 + "&client_id=" + GetClientID()
                 + "&redirect_uri=com.companyname.adventurescrolls:/redirect"
@@ -100,6 +143,19 @@ namespace AdventureScrolls.Services
             //Sends request to receive token
             var response = await httpClient.PostAsync(requestUrl, null);
 
+            var json = await response.Content.ReadAsStringAsync();
+            var accessToken = JsonConvert.DeserializeObject<TokenModel>(json);
+            return accessToken;
+        }
+        public async Task<TokenModel> RefreshAccessToken(string refreshToken)
+        {
+            var requestUrl =
+                "https://oauth2.googleapis.com/token"
+                + "&client_id=" + GetClientID()
+                + "&refresh_token=" + refreshToken
+                + "&grant_type=refresh_token";
+            var httpClient = new HttpClient();
+            var response = await httpClient.PostAsync(requestUrl, null);
             var json = await response.Content.ReadAsStringAsync();
             var accessToken = JsonConvert.DeserializeObject<TokenModel>(json);
             return accessToken;

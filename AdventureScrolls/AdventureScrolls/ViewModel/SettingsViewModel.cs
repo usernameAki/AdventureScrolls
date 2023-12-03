@@ -11,31 +11,31 @@ namespace AdventureScrolls.ViewModel
 {
     public class SettingsViewModel : BaseViewModel
     {
+        private GoogleDriveService _googleDriveService { get;}
+        private IScribeService _scribeService { get;}
         public Command ConnectToGD { get; }
         public Command SaveFilesOnGoogle { get; }
         public Command DownloadFilesOnGoogle { get; }
-        public Command CheckFile { get; }
         public SettingsViewModel(INavigationService navigationService) : base(navigationService)
         {
-            GoogleDriveService googleDriveService = new GoogleDriveService();
+            _googleDriveService = new GoogleDriveService();
+            _scribeService = DependencyService.Get<IScribeService>();
 
             ConnectToGD = new Command(async o =>
             {
-                Console.WriteLine("ConnectToGD");
-                await googleDriveService.Authenticateuser();
+                await _googleDriveService.ConnectToGoogleDrive();
             });
 
             SaveFilesOnGoogle = new Command(async o =>
             {
-                Console.WriteLine("SaveFilesOnGoogle");
-                await googleDriveService.UploadScrollLibrary();
+                await _googleDriveService.UploadScrollLibrary();
             });
 
             DownloadFilesOnGoogle = new Command(async o =>
             {
-                Console.WriteLine("DownloadFilesOnGoogle");
-                var file = await googleDriveService.RetrieveAppDataFileByName();
-                await googleDriveService.DownloadScrollLibrary(file.Id);
+                var file = await _googleDriveService.RetrieveAppDataFileByName();
+                await _googleDriveService.DownloadScrollLibrary(file.Id);
+                _scribeService.GetScrolls();
             });
         }
     }
