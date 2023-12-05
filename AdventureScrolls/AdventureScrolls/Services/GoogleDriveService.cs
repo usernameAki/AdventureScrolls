@@ -14,9 +14,11 @@ using System.Collections.ObjectModel;
 using Newtonsoft.Json.Linq;
 using System.Reflection;
 using static Google.Apis.Auth.OAuth2.Web.AuthorizationCodeWebApp;
+using System.Diagnostics.SymbolStore;
 
 
 // I still need to clean and organize code here... （￣。。￣）
+//scalić funkcje GetAccessTokenAsync oraz RefreshAccessToken
 
 
 namespace AdventureScrolls.Services
@@ -52,51 +54,70 @@ namespace AdventureScrolls.Services
         //We call this method first, to check if there is any access token already stored on device.
         //If no, then standard procedure of authorization process will be launched.
         //If authorization process will succeed, then access token and refresh token will be stored on device Secure Storage.
-        public async Task ConnectToGoogleDrive()
+        
+        /// <summary>
+        /// Login to google drive.
+        /// </summary>
+        /// <returns></returns>
+        public async Task LoginToGoogleDrive()
         {
-            bool isTokenValid = false;
-
-            //We try to load tokens from device.
-            //If tokens exist, we will go througt loop to check if any of them is still avaible.
-            //First we check normal token, which is stored in array. If fails, loop will try with refresh token.
-            //If both cases fail, normal authorization process will be triggered.
-            string[] oauthToken = new string[2];
-            oauthToken[0] = await SecureStorage.GetAsync("oauth_token");
-            oauthToken[1] = await SecureStorage.GetAsync("oauth_refresh_token");
-            if (oauthToken[0] != null)
+            if (await LoginAgain())
             {
-                for (int i = 0; i < 2; i++)
-                {
-                    InitializeDriveService(oauthToken[i]);
-                    try
-                    {
-                        await RetrieveAppDataFileByName();
-                        isTokenValid = true;
-                        break;
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex.Message);
-                    }
-                }
-            } 
-
-            //If we failed to login into google, normal procedure will launch here, and user have to log in again. 
-            else if(oauthToken[0] != null ||  !isTokenValid)
-            {
-                await AuthenticateUser();
+                Console.WriteLine("LoginToGoogleDrive. LoginAgain Succeed.");
             }
-            
+            else if (await AuthenticateUser())
+            {
+                Console.WriteLine("LoginToGoogleDrive. LoginAgain Failed.");
+                Console.WriteLine("LoginToGoogleDrive. AuthenticateUser Succeed.");
+            } else
+            {
+                Console.WriteLine("LoginToGoogleDrive. Megumin broke (T_T)");
+            }
+        }
+        /// <summary>
+        /// This method gets access Token from KeyStore,
+        /// and tries to login us again in google drive.
+        /// </summary>
+        /// <returns>Retunr true if login succeed. False if failed.</returns>
+        private async Task<bool> LoginAgain()
+        {
+            string token;
+            string refreshToken;
+            //Try to retrive token from KeyStore.
+            try
+            {
+                token = await SecureStorage.GetAsync("oauth_token");
+                refreshToken = await SecureStorage.GetAsync("oauth_refresh_token");
+            }
+            catch (Exception ex)
+            { 
+                Console.WriteLine("LoginAgain. Retriving token from KeyStore failed. Exception:" + ex.Message); 
+                return false; //if fails to retrive key, return false.
+            }
+            //After retriving token, we are going to try token validity.
+            InitializeDriveService(token);
+            if (await CheckTokenValidity())
+            {
+                return true; //If actual token still works.
+            }
+            //If token is not valid, we are trying refresh token.
+            TokenModel newToken = await GetAccessTokenAsync(null, refreshToken);
+            if (newToken != null)
+            {
+                await StoreTokenInKeyStore(newToken);
+                InitializeDriveService(newToken.AccessToken);
+                return true;
+            } else return false;
         }
 
         /// <summary>
         /// Authorizes connection between app and users google drive using OAuth2.
         /// </summary>
         /// <returns></returns>
-        public async Task AuthenticateUser()
+        public async Task<bool> AuthenticateUser()
         {
             //Authentication URL
-            var authUrl = new Uri(
+            Uri authUrl = new Uri(
                 $"https://accounts.google.com/o/oauth2/v2/auth"
                 + "?client_id=" + GetClientID()
                 + "&response_type=code"
@@ -105,7 +126,7 @@ namespace AdventureScrolls.Services
                 + "&prompt=consent");
 
             //Callback to app
-            var callbackUrl = new Uri("com.companyname.adventurescrolls://");
+            Uri callbackUrl = new Uri("com.companyname.adventurescrolls://");
 
             WebAuthenticatorResult authResult = null;
             try //login to google
@@ -115,53 +136,88 @@ namespace AdventureScrolls.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine("AuthenticateUser. Authorization failed. Exception: " + ex.Message);
+                return false;
             }
-
             //If authorization succeed, app will ask for access token.
-            if (authResult != null)
+            if (authResult == null)
             {
-                Console.WriteLine("authentication successfully.");
-                var authorizationCode = authResult.Properties["code"];
-                var accessToken = await GetAccessTokenAsync(authorizationCode);
-
-                //Access Token and refresh Token will be stored in devices Secure Storage.
-                try
-                {
-                    await SecureStorage.SetAsync("oauth_token", accessToken.AccessToken);
-                    await SecureStorage.SetAsync("oauth_refresh_token", accessToken.RefreshToken);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-
-                InitializeDriveService(accessToken.AccessToken);
+                Console.WriteLine("Authentication failed!");
+                return false;
             }
-            else { Console.WriteLine("Authentication failed!"); }
+            Console.WriteLine("AuthenticateUser. Authentication succeed.");
+            string authorizationCode = authResult.Properties["code"];
+            try
+            {
+                TokenModel accessToken = await GetAccessTokenAsync(authorizationCode, null);
+                //Access Token and refresh Token will be stored in devices Secure Storage.
+                await StoreTokenInKeyStore(accessToken);
+                InitializeDriveService(accessToken.AccessToken);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("AuthenticateUser. Failed to retrive new token. Exception: " + ex.Message);
+                return false;
+            }
         }
         /// <summary>
-        /// Exchanges authorization code for Access Token, after successfully authorization.
+        /// Stores Access Token and refresh token inside KeyStore.
         /// </summary>
-        /// <param name="code"></param>
-        /// <returns>Returns Access Token</returns>
-        public async Task<TokenModel> GetAccessTokenAsync(string code)
+        /// <param name="token"></param>
+        /// <returns></returns>
+        private async Task StoreTokenInKeyStore(TokenModel token)
         {
-            var requestUrl =
-                $"https://oauth2.googleapis.com/token"
-                + "?code=" + code
+            try
+            {
+                await SecureStorage.SetAsync("oauth_token", token.AccessToken);
+                await SecureStorage.SetAsync("oauth_refresh_token", token.RefreshToken);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+        /// <summary>
+        /// Requests for a new access token to google drive.
+        /// Function checks is refreshToken is avaible, and will prioritize refreshing.
+        /// Otherwise it will use code.
+        /// One of the passed values can be null.
+        /// </summary>
+        /// <returns>Returns Access Token</returns>
+        public async Task<TokenModel> GetAccessTokenAsync(string code, string refreshToken)
+        {
+            string requestUrl = $"https://oauth2.googleapis.com/token";
+            if (refreshToken != null)
+            {
+                requestUrl +=
+                "&client_id=" + GetClientID()
+                + "&refresh_token=" + refreshToken
+                + "&grant_type=refresh_token";
+            }
+            else if (code != null)
+            {
+                requestUrl +=
+                "?code=" + code
                 + "&client_id=" + GetClientID()
                 + "&redirect_uri=com.companyname.adventurescrolls:/redirect"
                 + "&grant_type=authorization_code";
-            var httpClient = new HttpClient();
-
+            }
+            else return null;
 
             //Sends request to receive token
-            var response = await httpClient.PostAsync(requestUrl, null);
-
-            var json = await response.Content.ReadAsStringAsync();
-            var accessToken = JsonConvert.DeserializeObject<TokenModel>(json);
-            return accessToken;
+            var httpClient = new HttpClient();
+            try
+            {
+                var response = await httpClient.PostAsync(requestUrl, null);
+                var json = await response.Content.ReadAsStringAsync();
+                var accessToken = JsonConvert.DeserializeObject<TokenModel>(json);
+                return accessToken;
+            } catch (Exception ex)
+            {
+                Console.WriteLine("GetAccessTokenAsync Failed. Exception: " + ex.Message);
+                return null;
+            }
         }
 
 
@@ -225,9 +281,38 @@ namespace AdventureScrolls.Services
             request.Spaces = "appDataFolder";
             request.Fields = "files(id, name)";
             request.Q = $"name = 'ScrollLibrary.json'";
-            var response = await request.ExecuteAsync();
-            return response.Files.FirstOrDefault(); 
+            try
+            {
+                var response = await request.ExecuteAsync();
+                return response.Files.FirstOrDefault();
+            }
+            catch (Exception e) 
+            { 
+                Console.WriteLine(e.Message);   
+            }
+            return null;
         }
+        private async Task<bool> CheckTokenValidity()
+        {
+            try
+            {
+                var request = _service.About.Get();
+                request.Fields = "user";
+                var about = await request.ExecuteAsync();
+                Console.WriteLine("Loged in as: " + about.User.DisplayName);
+                return true;
+            } catch (Exception ex)
+            {
+                Console.WriteLine("CheckTokenValidity. Invalid token. Exception: " + ex.Message);
+                return false;
+            }
+        }
+
+
+
+
+
+
 
         /// <summary>
         /// Downloads and saves fetched ScrollLibrary file on device.

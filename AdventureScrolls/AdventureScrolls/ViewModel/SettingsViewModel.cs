@@ -23,7 +23,7 @@ namespace AdventureScrolls.ViewModel
 
             ConnectToGD = new Command(async o =>
             {
-                await _googleDriveService.ConnectToGoogleDrive();
+                await _googleDriveService.LoginToGoogleDrive();
             });
 
             SaveFilesOnGoogle = new Command(async o =>
