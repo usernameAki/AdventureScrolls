@@ -33,8 +33,7 @@ namespace AdventureScrolls.ViewModel
 
             DownloadFilesOnGoogle = new Command(async o =>
             {
-                var file = await _googleDriveService.RetrieveAppDataFileByName();
-                await _googleDriveService.DownloadScrollLibrary(file.Id);
+                await _googleDriveService.DownloadScrollLibrary();
                 _scribeService.GetScrolls();
             });
         }
