@@ -12,6 +12,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Services\GoogleDriveService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Resources\GDToken.json" />
   </ItemGroup>
 

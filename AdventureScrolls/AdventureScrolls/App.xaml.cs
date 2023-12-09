@@ -22,6 +22,8 @@ namespace AdventureScrolls
         {
             InitializeComponent();
             DependencyService.Register<IScribeService, ScribeService>();
+            DependencyService.Register<IGoogleUserAuthenticationService, GoogleUserAuthenticationService>();
+            DependencyService.Register<IGoogleDriveDataService, GoogleDriveDataService>();
             await NavigationService.NavigateAsync("MainView");
         }
 

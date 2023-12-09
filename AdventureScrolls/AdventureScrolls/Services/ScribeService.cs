@@ -12,7 +12,7 @@ namespace AdventureScrolls.Services
 {
     public class ScribeService : IScribeService
     {
-        public string filePath;
+        public string filePath { get; set; }
         public ObservableCollection<ScrollModel> ScrollLibrary {get; set;}
 
         public ScribeService()
@@ -37,21 +37,20 @@ namespace AdventureScrolls.Services
                 ScrollLibrary.Add(scroll);
             }
         }
-        private void StoreScrolls(ObservableCollection<ScrollModel> scrollLibraryToStore)
+        public void StoreScrolls(ObservableCollection<ScrollModel> scrollLibraryToStore)
         {
             string json = JsonConvert.SerializeObject(scrollLibraryToStore, Formatting.Indented);
             File.WriteAllText(filePath, json);
+            GetScrolls();
         }
         public void StoreNewScroll(ScrollModel scrollToStore)
         {
             ScrollLibrary.Add(new ScrollModel(scrollToStore));
             StoreScrolls(ScrollLibrary);
-            GetScrolls();
         }
         public void OverrideScroll()
         {
             StoreScrolls(ScrollLibrary);
-            GetScrolls();
         }
         public void RemoveScroll(object scrollToDelete)
         {
@@ -60,7 +59,6 @@ namespace AdventureScrolls.Services
                 int index = ScrollLibrary.IndexOf(scrollToDelete);
                 ScrollLibrary.RemoveAt(index);
                 StoreScrolls(ScrollLibrary);
-                GetScrolls();
             }
             catch (Exception e)
             {
