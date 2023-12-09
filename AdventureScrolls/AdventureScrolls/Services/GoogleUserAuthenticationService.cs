@@ -15,6 +15,7 @@ namespace AdventureScrolls.Services
 {
     public class GoogleUserAuthenticationService : IGoogleUserAuthenticationService
     {
+        public string userName { get; set; }
         private DriveService _driveService;
         public DriveService driveService
         {
@@ -25,20 +26,23 @@ namespace AdventureScrolls.Services
         /// <summary>
         /// Login to Google.
         /// </summary>
-        public async Task LoginToGoogleDrive()
+        public async Task<bool> LoginToGoogleDrive()
         {
             if (await LoginAgain())
             {
                 Console.WriteLine("LoginToGoogleDrive. LoginAgain Succeed.");
+                return true;
             }
             else if (await AuthenticateUser())
             {
                 Console.WriteLine("LoginToGoogleDrive. LoginAgain Failed.");
                 Console.WriteLine("LoginToGoogleDrive. AuthenticateUser Succeed.");
+                return true;
             }
             else
             {
                 Console.WriteLine("LoginToGoogleDrive. Megumin broke (T_T)");
+                return false;
             }
         }
 
@@ -49,7 +53,7 @@ namespace AdventureScrolls.Services
         private string GetClientID()
         {
             string clientID;
-            var assembly = IntrospectionExtensions.GetTypeInfo(typeof(GoogleDriveService)).Assembly;
+            var assembly = IntrospectionExtensions.GetTypeInfo(typeof(GoogleUserAuthenticationService)).Assembly;
 
             //Read client ID property from json file.
             Stream stream = assembly.GetManifestResourceStream("AdventureScrolls.Resources.GDToken.json");
@@ -211,7 +215,7 @@ namespace AdventureScrolls.Services
         /// Checks if available token is still valid.
         /// </summary>
         /// <returns>Result of token validity.</returns>
-        private async Task<bool> CheckTokenValidity()
+        public async Task<bool> CheckTokenValidity()
         {
             //We send simple query to google to get username.
             //If token is not valid app will met Exception, and thus return false. 
@@ -221,6 +225,7 @@ namespace AdventureScrolls.Services
                 request.Fields = "user";
                 var about = await request.ExecuteAsync();
                 Console.WriteLine("Loged in as: " + about.User.DisplayName);
+                userName = about.User.DisplayName;
                 return true;
             }
             catch (Exception ex)

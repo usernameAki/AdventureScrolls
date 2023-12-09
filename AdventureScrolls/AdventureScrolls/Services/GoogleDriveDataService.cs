@@ -27,6 +27,7 @@ namespace AdventureScrolls.Services
         /// <returns></returns>
         public async Task<bool> UploadScrollLibrary()
         {
+            if(!await _userAuthenticationService.CheckTokenValidity()) return false;
             var fileMetadata = new Google.Apis.Drive.v3.Data.File()
             {
                 Name = "ScrollLibrary.json",
@@ -60,6 +61,7 @@ namespace AdventureScrolls.Services
         /// <returns>Result of retriving data.</returns>
         public async Task<bool> DownloadScrollLibrary()
         {
+            if (!await _userAuthenticationService.CheckTokenValidity()) return false;
             var file = await RetrieveAppDataFileByName("ScrollLibrary.json");
             if (file != null)
             {

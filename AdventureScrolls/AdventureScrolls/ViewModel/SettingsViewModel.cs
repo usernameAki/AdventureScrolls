@@ -25,18 +25,41 @@ namespace AdventureScrolls.ViewModel
 
             ConnectToGD = new Command(async o =>
             {
-                await _googleUserAuthenticationService.LoginToGoogleDrive();
+                if(await _googleUserAuthenticationService.LoginToGoogleDrive())
+                {
+                    await Application.Current.MainPage.DisplayAlert("Login succeed!",
+                        $"Logged as: {_googleUserAuthenticationService.userName}","OK");
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert("Login failed!", "", "OK");
+                }
+
             });
 
             SaveFilesOnGoogle = new Command(async o =>
             {
-                await _googleDriveDataService.UploadScrollLibrary();
+                if (await _googleDriveDataService.UploadScrollLibrary())
+                {
+                    await Application.Current.MainPage.DisplayAlert("Upload succeed!", "", "OK");
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert("Upload failed!", "", "OK");
+                }
             });
 
             DownloadFilesOnGoogle = new Command(async o =>
             {
-                await _googleDriveDataService.DownloadScrollLibrary();
-                _scribeService.GetScrolls();
+                if (await _googleDriveDataService.DownloadScrollLibrary())
+                {
+                    _scribeService.GetScrolls();
+                    await Application.Current.MainPage.DisplayAlert("Download succeed!", "", "OK");
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert("Download failed!", "", "OK");
+                }
             });
         }
     }

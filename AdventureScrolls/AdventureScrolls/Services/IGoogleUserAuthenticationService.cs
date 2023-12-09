@@ -5,8 +5,10 @@ namespace AdventureScrolls.Services
 {
     public interface IGoogleUserAuthenticationService
     {
+        string userName { get; }
         DriveService driveService { get; set; }
 
-        Task LoginToGoogleDrive();
+        Task<bool> LoginToGoogleDrive();
+        Task<bool> CheckTokenValidity();
     }
 }
