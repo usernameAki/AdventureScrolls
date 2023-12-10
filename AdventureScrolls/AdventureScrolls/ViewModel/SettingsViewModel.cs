@@ -14,16 +14,16 @@ namespace AdventureScrolls.ViewModel
         private IScribeService _scribeService { get;}
         private IGoogleUserAuthenticationService _googleUserAuthenticationService { get;}
         private IGoogleDriveDataService _googleDriveDataService { get;}
-        public Command ConnectToGD { get; }
-        public Command SaveFilesOnGoogle { get; }
-        public Command DownloadFilesOnGoogle { get; }
+        public Command ConnectToGoogleDrive { get; } //Login into google.
+        public Command UploadScrollLibrary { get; } //Makes backup on google drive.
+        public Command DownloadScrollLibrary { get; } //Downloads backup from google drive.
         public SettingsViewModel(INavigationService navigationService) : base(navigationService)
         {
             _scribeService = DependencyService.Get<IScribeService>();
             _googleUserAuthenticationService = DependencyService.Get<IGoogleUserAuthenticationService>();
             _googleDriveDataService = DependencyService.Get<IGoogleDriveDataService>();
 
-            ConnectToGD = new Command(async o =>
+            ConnectToGoogleDrive = new Command(async o =>
             {
                 if(await _googleUserAuthenticationService.LoginToGoogleDrive())
                 {
@@ -37,7 +37,7 @@ namespace AdventureScrolls.ViewModel
 
             });
 
-            SaveFilesOnGoogle = new Command(async o =>
+            UploadScrollLibrary = new Command(async o =>
             {
                 if (await _googleDriveDataService.UploadScrollLibrary())
                 {
@@ -49,7 +49,7 @@ namespace AdventureScrolls.ViewModel
                 }
             });
 
-            DownloadFilesOnGoogle = new Command(async o =>
+            DownloadScrollLibrary = new Command(async o =>
             {
                 if (await _googleDriveDataService.DownloadScrollLibrary())
                 {
