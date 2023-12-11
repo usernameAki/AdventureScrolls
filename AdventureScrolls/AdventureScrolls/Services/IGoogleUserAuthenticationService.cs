@@ -10,5 +10,6 @@ namespace AdventureScrolls.Services
 
         Task<bool> LoginToGoogleDrive();
         Task<bool> CheckTokenValidity();
+        Task<bool> LoginAgain();
     }
 }

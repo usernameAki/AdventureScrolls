@@ -4,9 +4,10 @@
              x:Class="AdventureScrolls.View.SettingsView">
     <ContentPage.Content>
         <StackLayout>
-            <Button VerticalOptions="Center" Text="Connect to google drive" Command="{Binding ConnectToGoogleDrive}"/>
-            <Button VerticalOptions="Center" Text="SaveFilesOnGoogle" Command="{Binding UploadScrollLibrary}"/>
-            <Button VerticalOptions="Center" Text="DownloadFilesOnGoogle" Command="{Binding DownloadScrollLibrary}"/>
+            <Label Text="{Binding userName}" HorizontalOptions="Center" Margin="0,20,0,0" />
+            <Button VerticalOptions="Center" Text="Login to google drive" Command="{Binding LoginGoogleDrive}"/>
+            <Button VerticalOptions="Center" Text="Make Backup" Command="{Binding UploadScrollLibrary}"/>
+            <Button VerticalOptions="Center" Text="Download Backup" Command="{Binding DownloadScrollLibrary}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

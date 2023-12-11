@@ -74,7 +74,7 @@ namespace AdventureScrolls.Services
         /// and tries to login us again in google drive.
         /// </summary>
         /// <returns>Retunr true if login succeed. False if failed.</returns>
-        private async Task<bool> LoginAgain()
+        public async Task<bool> LoginAgain()
         {
             string token;
             string refreshToken;
@@ -148,7 +148,9 @@ namespace AdventureScrolls.Services
                 //Access Token and refresh Token will be stored on device Secure Storage.
                 await StoreTokenInKeyStore(accessToken);
                 InitializeDriveService(accessToken.AccessToken);
+                var getUserName = await CheckTokenValidity();
                 return true;
+               // return true;
             }
             catch (Exception ex)
             {
