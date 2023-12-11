@@ -10,6 +10,7 @@ using Prism.Plugin.Popups;
 using System;
 using System.Reflection;
 using Xamarin.Forms;
+using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
 using Xamarin.Forms.Xaml;
 
 namespace AdventureScrolls
@@ -21,9 +22,16 @@ namespace AdventureScrolls
         protected override async void OnInitialized()
         {
             InitializeComponent();
+            //This line prevent Editor to fill whole screen
+            Xamarin.Forms.Application.Current.On<Xamarin.Forms.PlatformConfiguration.Android>().
+                UseWindowSoftInputModeAdjust(WindowSoftInputModeAdjust.Resize);
+
+            //DI
             DependencyService.Register<IScribeService, ScribeService>();
             DependencyService.Register<IGoogleUserAuthenticationService, GoogleUserAuthenticationService>();
             DependencyService.Register<IGoogleDriveDataService, GoogleDriveDataService>();
+
+            //Navigation
             await NavigationService.NavigateAsync("MainView");
         }
 
