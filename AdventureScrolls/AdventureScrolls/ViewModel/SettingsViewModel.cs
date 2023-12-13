@@ -34,18 +34,18 @@ namespace AdventureScrolls.ViewModel
 
         public SettingsViewModel(INavigationService navigationService) : base(navigationService)
         {
-            userName = "Please login.";
             //Services
             _scribeService = DependencyService.Get<IScribeService>();
             _googleUserAuthenticationService = DependencyService.Get<IGoogleUserAuthenticationService>();
             _googleDriveDataService = DependencyService.Get<IGoogleDriveDataService>();
-            Task.Run(async () => 
+
+            Task.Run(async () =>
             {
-                if(await _googleUserAuthenticationService.LoginAgain())
+                if (await _googleUserAuthenticationService.LoginAgain())
                 {
                     userName = "Logged as: " + _googleUserAuthenticationService.userName;
                 }
-
+                else userName = "Please login.";
             });
 
             //Commands

@@ -4,6 +4,6 @@
              xmlns:prism="http://prismlibrary.com"
              x:Class="AdventureScrolls.App">
     <Application.Resources>
-
+        <ResourceDictionary Source="/View/Resources/Styles.xaml"/>
     </Application.Resources>
 </prism:PrismApplication>

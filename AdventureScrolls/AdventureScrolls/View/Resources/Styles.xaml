@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <Color x:Key="MainPrimaryColor">#787878</Color>
+    <Color x:Key="MainSecondaryColor">#343434</Color>
+    <Color x:Key="MainTertiaryColor">#191919</Color>
+    <Style x:Key="MainButtonStyle" TargetType="Button">
+        <Setter Property="FontAttributes" Value="Bold"/>
+        <Setter Property="TextColor" Value="{StaticResource MainPrimaryColor}"/>
+        <Setter Property="BorderColor" Value="{StaticResource MainPrimaryColor}"/>
+        <Setter Property="BackgroundColor" Value="{StaticResource MainSecondaryColor}"/>
+        <Setter Property="BorderWidth" Value="2"/>
+        <Setter Property="CornerRadius" Value="15"/>
+    </Style>
+    <Style x:Key="MainFrameStyle" TargetType="Frame">
+        <Setter Property="BackgroundColor" Value="{StaticResource MainTertiaryColor}"/>
+        <Setter Property="BorderColor" Value="{StaticResource MainPrimaryColor}"/>
+        <Setter Property="CornerRadius" Value="15"/>
+    </Style>
+    <Style x:Key="MainLabelStyle" TargetType="Label">
+        <Setter Property="TextColor" Value="{StaticResource MainPrimaryColor}"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+    </Style>
+</ResourceDictionary>

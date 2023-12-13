@@ -4,10 +4,32 @@
              x:Class="AdventureScrolls.View.SettingsView">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="{Binding userName}" HorizontalOptions="Center" Margin="0,20,0,0" />
-            <Button VerticalOptions="Center" Text="Login to google drive" Command="{Binding LoginGoogleDrive}"/>
-            <Button VerticalOptions="Center" Text="Make Backup" Command="{Binding UploadScrollLibrary}"/>
-            <Button VerticalOptions="Center" Text="Download Backup" Command="{Binding DownloadScrollLibrary}"/>
+            <Label
+                Style="{StaticResource MainLabelStyle}"
+                Text="{Binding userName}" 
+                HorizontalOptions="Center" 
+                Margin="0,50,0,50" />
+            <Button 
+                Style="{StaticResource MainButtonStyle}" 
+                WidthRequest="200"
+                Margin="0,10,0,10"
+                HorizontalOptions="Center"
+                Text="Login to google drive" 
+                Command="{Binding LoginGoogleDrive}"/>
+            <Button 
+                Style="{StaticResource MainButtonStyle}" 
+                WidthRequest="200"
+                Margin="0,10,0,10"
+                HorizontalOptions="Center" 
+                Text="Make Backup" 
+                Command="{Binding UploadScrollLibrary}"/>
+            <Button 
+                Style="{StaticResource MainButtonStyle}" 
+                WidthRequest="200"
+                Margin="0,10,0,10"
+                HorizontalOptions="Center"
+                Text="Download Backup" 
+                Command="{Binding DownloadScrollLibrary}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

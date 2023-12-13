@@ -7,10 +7,10 @@
             xmlns:view="clr-namespace:AdventureScrolls.View"
             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
             x:Class="AdventureScrolls.View.MainView"
-            BarBackgroundColor="Gray"
-            SelectedTabColor="white"
-            UnselectedTabColor="black">
-    <view:AdventureScrollsView IconImageSource="scrolls.png" />
-    <view:WriteAdventureView IconImageSource="feather.png"/>
-    <view:SettingsView IconImageSource="feather.png" />
+            UnselectedTabColor="{StaticResource MainPrimaryColor}"
+            BarBackgroundColor="{StaticResource MainSecondaryColor}"
+            SelectedTabColor="{StaticResource MainTertiaryColor}">
+    <view:AdventureScrollsView IconImageSource="library.png" />
+    <view:WriteAdventureView IconImageSource="edit.png"/>
+    <view:SettingsView IconImageSource="gear.png" />
 </TabbedPage>
