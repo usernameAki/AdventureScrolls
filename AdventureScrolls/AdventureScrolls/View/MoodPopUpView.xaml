@@ -4,6 +4,17 @@
              x:Class="AdventureScrolls.View.MoodPopUpView"
              xmlns:popup="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
              xmlns:viewModel="clr-namespace:AdventureScrolls.ViewModel">
+    <popup:PopupPage.Resources>
+        <Style x:Key="MoodImageButton" TargetType="ImageButton">
+            <Setter Property="HeightRequest" Value="50"/>
+            <Setter Property="WidthRequest" Value="50"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="BorderWidth" Value="3"/>
+            <Setter Property="BorderColor" Value="{StaticResource MainPrimaryColor}"/>
+            <Setter Property="Command" Value="{Binding ChangeMood}"/>
+        </Style>
+    </popup:PopupPage.Resources>
     <Frame 
         Style="{StaticResource MainFrameStyle}"
         HorizontalOptions="Center" 
@@ -18,11 +29,26 @@
                 Text="How do you feel today?"
                 HorizontalOptions="Center"/>
             <StackLayout Grid.Row="1" Orientation="Horizontal">
-                <ImageButton Source="mood_aquaScale_disgusted.png" HeightRequest="50" WidthRequest="50" Margin="5" CornerRadius="10" Command="{Binding ChangeMood}" CommandParameter="disgusted"/>
-                <ImageButton Source="mood_aquaScale_sad.png" HeightRequest="50" WidthRequest="50" Margin="5" CornerRadius="10" Command="{Binding ChangeMood}" CommandParameter="sad"/>
-                <ImageButton Source="mood_aquaScale_normal.png" HeightRequest="50" WidthRequest="50" Margin="5" CornerRadius="10" Command="{Binding ChangeMood}" CommandParameter="normal"/>
-                <ImageButton Source="mood_aquaScale_happy.png" HeightRequest="50" WidthRequest="50" Margin="5" CornerRadius="10" Command="{Binding ChangeMood}" CommandParameter="happy"/>
-                <ImageButton Source="mood_aquaScale_angry.png" HeightRequest="50" WidthRequest="50" Margin="5" CornerRadius="10" Command="{Binding ChangeMood}" CommandParameter="angry"/>
+                <ImageButton 
+                    Style="{StaticResource MoodImageButton}" 
+                    Source="mood_aquaScale_disgusted.png" 
+                    CommandParameter="disgusted"/>
+                <ImageButton 
+                    Style="{StaticResource MoodImageButton}" 
+                    Source="mood_aquaScale_sad.png" 
+                    CommandParameter="sad"/>
+                <ImageButton 
+                    Style="{StaticResource MoodImageButton}" 
+                    Source="mood_aquaScale_normal.png" 
+                    CommandParameter="normal"/>
+                <ImageButton 
+                    Style="{StaticResource MoodImageButton}" 
+                    Source="mood_aquaScale_happy.png" 
+                    CommandParameter="happy"/>
+                <ImageButton 
+                    Style="{StaticResource MoodImageButton}" 
+                    Source="mood_aquaScale_angry.png" 
+                    CommandParameter="angry"/>
             </StackLayout>
         </Grid>
     </Frame>

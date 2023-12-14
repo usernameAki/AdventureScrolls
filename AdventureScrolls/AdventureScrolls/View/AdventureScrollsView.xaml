@@ -22,9 +22,9 @@
                 HorizontalOptions="Center" 
                 Margin="0,5,0,0"/>
             <Image 
-                Source="scrolls.png" 
+                Source="library0.png" 
                 HeightRequest="50" 
-                xct:IconTintColorEffect.TintColor="#787878"/>
+                xct:IconTintColorEffect.TintColor="#787878" />
 
             <!--___________________________________________ListView________________________________________________________ -->
             <ListView 
@@ -41,7 +41,7 @@
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="50"/>
-                                            <ColumnDefinition Width="3"/>
+                                            <ColumnDefinition Width="2"/>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="50"/>
                                         </Grid.ColumnDefinitions>
@@ -64,9 +64,10 @@
                                                 HorizontalOptions="Center"/>
                                         </StackLayout>
                                         <Frame 
-                                            Style="{StaticResource MainFrameStyle}"
+                                            BackgroundColor="{StaticResource MainPrimaryColor}"
                                             Grid.Column="1" 
-                                            Margin="0,5,0,5">
+                                            WidthRequest="2"
+                                            Margin="0,3,0,3">
                                             <Frame.Triggers>
                                                 <DataTrigger 
                                                     TargetType="Frame"
