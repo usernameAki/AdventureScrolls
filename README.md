@@ -1,3 +1,6 @@
+# DISCLAIMER
+This project is completely abandoned as Xamarin Framework.
+
 # AdventureScrolls
 Simple Diary App for Android devices. No ads, pays, or additional things, just diary (still in development).
 
@@ -7,8 +10,6 @@ Available features:
 - CRUD diary entries,
 - list view of all entries,
 - google drive backup*
-
-*Please note, that for now usage of google drive is restricted for this app. If you wish to have an access, let me know: adventurescrollsdiaryapp@gmail.com
 
 # Screenshots
 <img width="20%" heigth="20%" src="https://github.com/usernameAki/AdventureScrolls/assets/143264847/33573356-d79f-4773-a406-7e08b661a0bf">
