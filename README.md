@@ -1,5 +1,5 @@
 # DISCLAIMER
-This project is completely abandoned as Xamarin Framework.
+This project is abndoned.
 
 # AdventureScrolls
 Simple Diary App for Android devices. No ads, pays, or additional things, just diary (still in development).
